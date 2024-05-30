@@ -1,0 +1,27 @@
+.app-header{
+    background-color: lightblue;
+    a{
+        text-decoration: none;
+        color: black;
+    }
+    .navbar-container{
+        .logo{
+            padding: 0.5rem 0;
+        }
+        nav{
+            width: 25%;
+            transform: translateX(150%);
+            .nav-link{
+                font-weight: 700;
+                padding: 0.4rem 1rem;
+                border-radius: 30px;
+                &.active{
+                    background: hsla(217, 100%, 50%, 1);
+                    background: linear-gradient(150deg, hsla(217, 100%, 50%, 1) 0%, hsla(186, 100%, 69%, 1) 100%);
+                    background: -moz-linear-gradient(150deg, hsla(217, 100%, 50%, 1) 0%, hsla(186, 100%, 69%, 1) 100%);
+                    background: -webkit-linear-gradient(150deg, hsla(217, 100%, 50%, 1) 0%, hsla(186, 100%, 69%, 1) 100%);
+                }
+            }
+        }
+    }
+}

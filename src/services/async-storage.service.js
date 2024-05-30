@@ -1,4 +1,3 @@
-
 export const asyncStorageService = {
     post,       // CREATE entity
     put,        // UPDATE entity

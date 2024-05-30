@@ -1,0 +1,29 @@
+.record-app {
+    .gradient-overlay {
+        h3 {
+            color: red;
+        }
+        height: 35vh;
+        width: 100%;
+        margin-block-end: 3rem;
+
+        background: hsla(217, 100%, 50%, 1);
+        background: linear-gradient(150deg, hsla(217, 100%, 50%, 1) 0%, hsla(186, 100%, 69%, 1) 100%);
+        background: -moz-linear-gradient(150deg, hsla(217, 100%, 50%, 1) 0%, hsla(186, 100%, 69%, 1) 100%);
+        background: -webkit-linear-gradient(150deg, hsla(217, 100%, 50%, 1) 0%, hsla(186, 100%, 69%, 1) 100%);
+    }
+
+    .main-container {
+        height: 40vh;
+
+        .left {
+            border: 1px solid red;
+            flex: 1;
+        }
+
+        .right {
+            border: 1px solid blue;
+            flex: 1.4;
+        }
+    }
+}
