@@ -1,27 +1,43 @@
 .record-app {
     .gradient-overlay {
-        h3 {
-            color: red;
-        }
         height: 35vh;
         width: 100%;
         margin-block-end: 3rem;
 
-        background: hsla(217, 100%, 50%, 1);
-        background: linear-gradient(150deg, hsla(217, 100%, 50%, 1) 0%, hsla(186, 100%, 69%, 1) 100%);
-        background: -moz-linear-gradient(150deg, hsla(217, 100%, 50%, 1) 0%, hsla(186, 100%, 69%, 1) 100%);
-        background: -webkit-linear-gradient(150deg, hsla(217, 100%, 50%, 1) 0%, hsla(186, 100%, 69%, 1) 100%);
+        background: #0062ff;
+        background: linear-gradient(150deg, #0062ff 0%, #61efff 100%);
+        background: -moz-linear-gradient(150deg, #0062ff 0%, #61efff 100%);
+        background: -webkit-linear-gradient(150deg, #0062ff 0%, #61efff 100%);
     }
 
     .main-container {
         .left {
-            border: 1px solid red;
             flex: 1;
+            height: 35vh;
         }
-
+        
         .right {
-            border: 1px solid blue;
-            flex: 1.4;
+            flex: 2;
+            height: fit-content;
+            .table-top-toolbar{
+                width: 100%;
+                margin-block-end: 0.5rem;
+                input#search {
+                    width: 200px;
+                    margin-block-start: 0.3rem;
+                    padding: 0.5rem 1.5rem 0.5rem 0.5rem;
+                    direction: rtl;
+                    background: transparent;
+                    outline: 0;
+                    border: 1px solid #0062ff;
+                    border-radius: 15px;
+                    transition: width 0.3s;
+                    &:focus {
+                        width: 300px;
+                        background: #d2e9fb;
+                    }
+                }
+            }
         }
     }
 }

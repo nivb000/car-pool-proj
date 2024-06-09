@@ -1,12 +1,13 @@
 export interface Record {
     _id?: string;
-    user: {
+    driver: {
       _id: string;
       fullName: string;
     };
-    startingKm: string;
-    driveEndKm: string;
-    date: string;
-    destination: string;
+    startingKm: number;
+    driveEndKm: number;
+    date: Date;
+    destinationPoint: string;
     startingPoint: string;
-  }  
+    car: number
+  }

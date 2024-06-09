@@ -1,26 +1,42 @@
 [
   {
-    "user": { "_id": "user1", "fullName": "John Doe" },
-    "startingKm": "10000",
-    "driveEndKm": "10542",
-    "date": "2024-05-30",
-    "destination": "New York City",
-    "startingPoint": "Los Angeles"
+    "_id": "0",
+    "driver": { "_id": "user1", "fullName": "John Doe" },
+    "startingKm": 10000,
+    "driveEndKm": 10542,
+    "date": 1717492044,
+    "destinationPoint": "New York City",
+    "startingPoint": "Los Angeles",
+    "car": 11111111
   },
   {
-    "user": { "_id": "user2", "fullName": "Jane Smith" },
-    "startingKm": "2500",
-    "driveEndKm": "3218",
-    "date": "2024-05-28",
-    "destination": "Chicago",
-    "startingPoint": "Miami"
+    "_id": "1",
+    "driver": { "_id": "user2", "fullName": "Jane Smith" },
+    "startingKm": 2500,
+    "driveEndKm": 3218,
+    "date": 1717492044,
+    "destinationPoint": "Chicago",
+    "startingPoint": "Miami",
+    "car": 11111111
   },
   {
-    "user": { "_id": "user10", "fullName": "Brandon Lee" },
-    "startingKm": "8765",
-    "driveEndKm": "9342",
-    "date": "2024-05-25",
-    "destination": "Seattle",
-    "startingPoint": "San Francisco"
+    "_id": "2",
+    "driver": { "_id": "user10", "fullName": "Brandon Lee" },
+    "startingKm": 8765,
+    "driveEndKm": 9342,
+    "date": 1717492044,
+    "destinationPoint": "Seattle",
+    "startingPoint": "San Francisco",
+    "car": 11111111
+  },
+  {
+    "_id": "3",
+    "driver": { "_id": "user11", "fullName": "John C" },
+    "startingKm": 51521,
+    "driveEndKm": 65146,
+    "date": 1717492044,
+    "destinationPoint": "Dimona",
+    "startingPoint": "Beer Sheva",
+    "car": 11111111
   }
 ]

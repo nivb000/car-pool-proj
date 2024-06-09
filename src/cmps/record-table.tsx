@@ -1,80 +1,114 @@
+//@ts-nocheck
 "use client"
-import * as React from 'react'
-import { styled } from '@mui/material/styles'
-import Table from '@mui/material/Table'
-import TableBody from '@mui/material/TableBody'
-import TableCell, { tableCellClasses } from '@mui/material/TableCell'
-import TableContainer from '@mui/material/TableContainer'
-import TableHead from '@mui/material/TableHead'
-import TableRow from '@mui/material/TableRow'
-import Paper from '@mui/material/Paper'
+import { useState } from "react"
+import { CompactTable } from "@table-library/react-table-library/compact"
+import { useTheme } from "@table-library/react-table-library/theme"
+import { getTheme } from "@table-library/react-table-library/baseline"
+import { useSort } from "@table-library/react-table-library/sort"
+import { usePagination } from "@table-library/react-table-library/pagination"
+import { Record } from "@/interfaces/record"
+import Button from '@mui/material/Button'
+import { Pagination } from "@mui/material"
+import Link from "next/link"
 
+export const RecordTable = ({ records }: any) => {
 
-const StyledTableCell = styled(TableCell)(({ theme }) => ({
-    [`&.${tableCellClasses.head}`]: {
-        backgroundColor: theme.palette.common.black,
-        color: theme.palette.common.white,
-    },
-    [`&.${tableCellClasses.body}`]: {
-        fontSize: 14,
-    },
-}));
+    const [search, setSearch] = useState("")
+    const theme = useTheme([
+        getTheme(),
+        {
+            Table: `
+                margin-bottom: 1rem;
+            `,
+            HeaderRow: `
+              background-color: #0062ff;
+            `,
+            Row: `
+              &:nth-of-type(odd) {
+                background-color: #d2e9fb;
+              }
+      
+              &:nth-of-type(even) {
+                background-color: #eaf5fd;
+              }
+            `,
+            BaseCell: `
+    
+            text-align: center;
+            padding: 0.8rem 0.5rem;
+            &:first-of-type {
+              text-align: center;
+            }
+    
+            &:last-of-type {
+              text-align: center;
+            }
+          `,
+        },
+    ])
 
-const StyledTableRow = styled(TableRow)(({ theme }) => ({
-    '&:nth-of-type(odd)': {
-        backgroundColor: theme.palette.action.hover,
-    },
-    // hide last border
-    '&:last-child td, &:last-child th': {
-        border: 0,
-    },
-}));
+    const handleSearch = ({ target }: React.ChangeEvent<HTMLInputElement>) => {
+        // const value = target.value
+        setSearch(target.value)
+    }
 
-function createData(
-    name: string,
-    calories: number,
-    fat: number,
-    carbs: number,
-    protein: number,
-) {
-    return { name, calories, fat, carbs, protein };
-}
+    const pagination = usePagination(records, {
+        state: {
+            page: 0,
+            size: 5,
+        }
+    })
 
-const rows = [
-    createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-    createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-    createData('Eclair', 262, 16.0, 24, 6.0),
-    createData('Cupcake', 305, 3.7, 67, 4.3),
-    createData('Gingerbread', 356, 16.0, 49, 3.9),
-]
+    const handlePageChange = (ev, newPage) => {
+        pagination.fns.onSetPage(newPage - 1)
+    }
 
-export const RecordTable = () => {
+    records = {
+        nodes: records.filter((record: any) =>
+            record.startingPoint.toLowerCase().includes(search.toLowerCase()) ||
+            record.driver.fullName.toLowerCase().includes(search.toLowerCase()) ||
+            record.destinationPoint.toLowerCase().includes(search.toLowerCase())
+        ),
+    }
+
+    const sort = useSort(
+        records,
+        {
+            onChange: onSortChange,
+        },
+        {
+            sortFns: {
+                ENDKM: (array: Record[]) => array.sort((a, b) => a.driveEndKm - b.driveEndKm),
+                STARTKM: (array: Record[]) => array.sort((a, b) => a.startingKm - b.startingKm),
+                startingPoint: (array: Record[]) => array.sort((a, b) => a.startingPoint.localeCompare(b.startingPoint)),
+                destination: (array: Record[]) => array.sort((a, b) => a.destinationPoint.localeCompare(b.destinationPoint)),
+            }
+        }
+    )
+
+    function onSortChange(action: any, state: any) {
+        console.log(action, state)
+    }
+
+    const COLUMNS = [
+        { label: "תאריך", renderCell: (record: Record) => new Date(record.date).toLocaleDateString('he-IL'), resize: true },
+        { label: 'ק"מ סוף נסיעה', renderCell: (record: Record) => record.driveEndKm, resize: true, sort: { sortKey: "ENDKM" } },
+        { label: 'ק"מ תחילת נסיעה', renderCell: (record: Record) => record.startingKm, resize: true, sort: { sortKey: "STARTKM" } },
+        { label: "נקודת יעד", renderCell: (record: Record) => record.destinationPoint, resize: true, sort: { sortKey: "destination" } },
+        { label: "נקודת מוצא", renderCell: (record: Record) => record.startingPoint, resize: true, sort: { sortKey: "startingPoint" } },
+        { label: "נהג", renderCell: (record: Record) => <Link href={`/${record._id}`}>{record.driver.fullName}</Link>, resize: true },
+    ]
+
     return (
-        <TableContainer component={Paper}>
-            <Table sx={{ minWidth: 700 }} aria-label="customized table">
-                <TableHead>
-                    <TableRow>
-                        <StyledTableCell>Dessert (100g serving)</StyledTableCell>
-                        <StyledTableCell align="right">Calories</StyledTableCell>
-                        <StyledTableCell align="right">Fat&nbsp;(g)</StyledTableCell>
-                        <StyledTableCell align="right">Carbs&nbsp;(g)</StyledTableCell>
-                        <StyledTableCell align="right">Protein&nbsp;(g)</StyledTableCell>
-                    </TableRow>
-                </TableHead>
-                <TableBody>
-                    {rows.map((row) => (
-                        <StyledTableRow key={row.name}>
-                            <StyledTableCell component="th" scope="row">
-                                {row.name}
-                            </StyledTableCell>
-                            <StyledTableCell align="right">{row.calories}</StyledTableCell>
-                            <StyledTableCell align="right">{row.fat}</StyledTableCell>
-                            <StyledTableCell align="right">{row.carbs}</StyledTableCell>
-                            <StyledTableCell align="right">{row.protein}</StyledTableCell>
-                        </StyledTableRow>
-                    ))}
-                </TableBody>
-            </Table>
-        </TableContainer>
+        <>
+            <div className="flex space-between table-top-toolbar">
+                <Button variant="contained" color="warning">
+                    הוסף נסיעה חדשה
+                </Button>
+                <input id="search" type="search" value={search} onChange={handleSearch} placeholder="חפש" />
+            </div>
+            <CompactTable columns={COLUMNS} data={records} theme={theme} layout={{ fixedHeader: true }} sort={sort} pagination={pagination} />
+            <Pagination count={pagination.state.getTotalPages(records.nodes)} color="primary" onChange={handlePageChange} style={{ alignSelf: 'center' }} />
+        </>
     )
 }
