@@ -8,25 +8,21 @@ module.exports = {
     removeRecord
 }
 
-async function getRecords(req, res) {
+async function getRecords() {
     try {
         const records = await recordService.query()
         return records
     } catch (error) {
-        res.status(500).send({ error: 'Failed to get all records' })
+        return { status: 500, error: "Failed to get record" }
     }
 }
 
-// async function getRecordById(req, res) {
 async function getRecordById(id) {
     try {
-        const { id } = req.params
         const record = await recordService.getById(id)
         return record
-        // res.json(record)
     } catch (error) {
-        return {error: 'Failed to get record'}
-        // res.status(500).send({ error: 'Failed to get record' })
+        throw error
     }
 }
 

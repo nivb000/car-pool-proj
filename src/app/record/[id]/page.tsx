@@ -1,4 +1,3 @@
-import React from 'react'
 import { Record } from '@/interfaces/record'
 
 async function getRecord(recordId: string) {
@@ -8,14 +7,12 @@ async function getRecord(recordId: string) {
 
 const RecordDetails = async ({ params }: { params: { id: string } }) => {
 
-  const record: Record = await getRecord(params.id)
-  console.log(record)
+  const { record }: { record: Record } = await getRecord(params.id)
+
   
-
-
-  return <div>
-    Hi from Record ID {params?.id}
-  </div>
+  return <pre>
+    {record?._id}
+  </pre>
 }
 
 export default RecordDetails
