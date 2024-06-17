@@ -1,5 +1,5 @@
-const dbService = require('../db.service')
-const ObjectId = require('mongodb').ObjectId
+import dbService from '../db.service'
+import { ObjectId } from 'mongodb'
 
 module.exports = {
     query,
@@ -54,7 +54,7 @@ async function update(record) {
         let id = ObjectId(record._id)
         delete record._id
         const collection = await dbService.getCollection('record')
-        await collection.updateOne({_id: id},{$set: {...record}})
+        await collection.updateOne({ _id: id }, { $set: { ...record } })
         return record
     } catch (error) {
         throw error

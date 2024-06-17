@@ -1,6 +1,6 @@
-const recordService = require('./server.record.service')
+import recordService from './record.service'
 
-module.exports = {
+module.export = {
     getRecords,
     getRecordById,
     addRecord,
@@ -8,12 +8,12 @@ module.exports = {
     removeRecord
 }
 
-async function getRecords() {
+export async function getRecords() {
     try {
         const records = await recordService.query()
         return records
     } catch (error) {
-        return { status: 500, error: "Failed to get record" }
+        throw error
     }
 }
 
