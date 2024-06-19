@@ -4,7 +4,18 @@
     box-sizing: border-box;
 }
 
-.main-layout{
+.main-layout {
     margin: 0 auto;
     width: 95%;
+}
+
+// HIDE ARROW ON INPUT NUMBER
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+input[type=number] {
+    -moz-appearance: textfield;
 }

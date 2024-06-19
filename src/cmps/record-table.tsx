@@ -103,9 +103,9 @@ export const RecordTable = ({ records }: any) => {
     return (
         <>
             <div className="flex space-between table-top-toolbar">
-                <Button variant="contained" color="warning">
+                <Link href="/record/edit"><Button variant="contained" color="warning">
                     הוסף נסיעה חדשה
-                </Button>
+                </Button></Link>
                 <input id="search" type="search" value={search} onChange={handleSearch} placeholder="חפש" />
             </div>
             <CompactTable columns={COLUMNS} data={records} theme={theme} layout={{ fixedHeader: true }} sort={sort} pagination={pagination} />

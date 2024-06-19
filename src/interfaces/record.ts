@@ -9,5 +9,6 @@ export interface Record {
     date: Date;
     destinationPoint: string;
     startingPoint: string;
-    car: number
+    car: number,
+    status: string
   }
