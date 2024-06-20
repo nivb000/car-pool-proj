@@ -1,13 +1,16 @@
 'use client'
 import { useState } from "react"
-import TextField from '@mui/material/TextField';
+import { Button } from "@mui/material"
+import Image from "next/image"
+import carOrder from "@/assets/imgs/order-car.png"
+import { httpService } from '@/services/http.service'
 
 const RecordEdit = () => {
 
     const [record, setRecord] = useState({
         startingKm: 0,
         driveEndKm: 0,
-        date: 1717492044,
+        date: new Date().getTime(),
         destinationPoint: "",
         startingPoint: "",
         car: 11111111
@@ -28,35 +31,46 @@ const RecordEdit = () => {
         setRecord(prevState => ({ ...prevState, [name]: value }))
     }
 
-    const handleSubmit = (ev: React.FormEvent) => {
+    const handleSubmit = async (ev: React.FormEvent) => {
         ev.preventDefault()
-        console.log(record)
-        
+        const newRecord = await httpService.post('record', record)
+        console.log(newRecord)
     }
 
-    return <section className="record-edit">
-        <form className="flex col align-center space-between" onSubmit={handleSubmit}>
-            <div className="input-field">
-                    {/* <input type="text" name="startingPoint" onChange={handleChange} /> */}
-                    <TextField id="outlined-basic" size="small" label="נקודת מוצא" variant="outlined" type="text" name="startingPoint" onChange={handleChange} />
+    return <section className="flex space-evenly record-edit">
+        <section className="form-container flex col align-center">
+            <div className="wrapper">
+                <h1>הוסף נסיעה חדשה</h1>
+                <form className="flex col space-between" autoComplete="off" onSubmit={handleSubmit}>
+                    <div className="input-field">
+                        <label htmlFor="startingPoint"></label>
+                        <input type="text" name="startingPoint" id="startingPoint" placeholder="נקודת מוצא" onChange={handleChange} />
+                    </div>
+                    <div className="input-field">
+                        <label htmlFor="destinationPoint"></label>
+                        <input type="text" name="destinationPoint" id="destinationPoint" placeholder="נקודת יעד" onChange={handleChange} />
+                    </div>
+                    <div className="input-field">
+                        <label htmlFor="startingKm"></label>
+                        <input type="number" defaultValue={125} name="startingKm" id="destinationPoint" placeholder="קילומטר תחילת נסיעה" onChange={handleChange} />
+                    </div>
+                    <div className="input-field">
+                        <label htmlFor="destinationPoint"></label>
+                        <input type="number" name="driveEndKm" id="destinationPoint" placeholder="קילומטר סוף נסיעה" onChange={handleChange} />
+                    </div>
+                    <div className="input-field">
+                        <Button variant="contained" color="success" fullWidth type="submit">
+                            הוסף נסיעה
+                        </Button>
+                    </div>
+                </form>
             </div>
-            <div className="input-field">
-                    {/* <input type="text" name="destinationPoint" onChange={handleChange} /> */}
-                    <TextField id="outlined-basic" size="small" label="יעד" variant="outlined" type="text" name="destinationPoint" onChange={handleChange} />
-                
+        </section>
+        <section className="left-section">
+            <div className="image-container">
+                <Image src={carOrder} width={500} height={500} alt='blue-car-image' />
             </div>
-            <div className="input-field">             
-                    {/* <input type="number" defaultValue={125} name="startingKm" onChange={handleChange} /> */}
-                    <TextField id="outlined-basic" size="small" label="קילומטר תחילת נסיעה" variant="outlined" type="number" defaultValue={125} name="startingKm" onChange={handleChange} />
-                
-            </div>
-            <div className="input-field">
-                    {/* <input type="number" name="driveEndKm" onChange={handleChange} /> */}
-                    <TextField id="outlined-basic" size="small" label="קילומטר סוף נסיעה" variant="outlined" type="number" name="driveEndKm" onChange={handleChange} />
-               
-            </div>
-            <button type="submit">Submit</button>
-        </form>
+        </section>
 
     </section>
 }

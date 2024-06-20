@@ -1,4 +1,4 @@
-import { getRecords, getRecordById } from "@/services/server/record/record.controller"
+import { getRecords, getRecordById, addRecord } from "@/services/server/record/record.controller"
 
 export async function GET(req: Request) {
 
@@ -14,6 +14,13 @@ export async function GET(req: Request) {
     //     }
     // }
 
-    let records = await getRecords()
+    const records = await getRecords()
+
     return Response.json({ records })
+}
+export async function POST(req: Request) {
+    const newRecord = await addRecord(req)
+
+
+    return Response.json({ newRecord })
 }

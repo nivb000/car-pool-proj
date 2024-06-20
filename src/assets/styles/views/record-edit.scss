@@ -1,8 +1,44 @@
-.record-edit{
+.record-edit {
     direction: rtl;
-    margin-block-start: 3rem;
-    form{
-        height: 300px;
-        border: 1px solid red;
+    margin-block-start: 2.5rem;
+
+    .form-container {
+        width: 500px;
+        background: #007cfe;
+
+        .wrapper {
+            width: 300px;
+            h1 {
+                margin: 1rem 0;
+                text-align: right;
+                font-family: Arial;
+            }
+
+            form {
+                padding-block-start: 0.3rem;
+
+                .input-field {
+                    margin: 1.5rem 0;
+
+                    input {
+                        background-color: transparent;
+                        width: 100%;
+                        padding: 0.1rem 0.3rem;
+                        font-size: 1rem;
+                        outline: 0;
+                        border-radius: 3px;
+                        border: 3px solid silver;
+                        color: white;
+                        &:focus {
+                            border: 3px solid black;
+                        }
+
+                        &::placeholder {
+                            color: silver;
+                        }
+                    }
+                }
+            }
+        }
     }
 }

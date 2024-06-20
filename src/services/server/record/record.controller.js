@@ -17,7 +17,7 @@ export async function getRecords() {
     }
 }
 
-async function getRecordById(id) {
+export async function getRecordById(id) {
     try {
         const record = await recordService.getById(id)
         return record
@@ -26,17 +26,17 @@ async function getRecordById(id) {
     }
 }
 
-async function addRecord(req, res) {
+export async function addRecord(req) {
     try {
-        const record = req.body
-        const newrecord = await recordService.add(record)
-        res.json(newrecord)
+        const newRecord = await req.json()
+        const recordToAdd = await recordService.add(newRecord)
+        return recordToAdd
     } catch (error) {
-        res.status(500).send({ error: 'Failed to add new record' })
+        throw error
     }
 }
 
-async function updateRecord(req, res) {
+export async function updateRecord(req, res) {
     try {
         const record = req.body
         const updatedrecord = await recordService.update(record)
@@ -46,7 +46,7 @@ async function updateRecord(req, res) {
     }
 }
 
-async function removeRecord(req, res) {
+export async function removeRecord(req, res) {
     try {
         const { id } = req.params
         const removedrecord = await recordService.remove(id)

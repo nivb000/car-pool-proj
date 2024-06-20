@@ -96,7 +96,7 @@ export const RecordTable = ({ records }: any) => {
         { label: 'ק"מ תחילת נסיעה', renderCell: (record: Record) => record.startingKm, resize: true, sort: { sortKey: "STARTKM" } },
         { label: "נקודת יעד", renderCell: (record: Record) => record.destinationPoint, resize: true, sort: { sortKey: "destination" } },
         { label: "נקודת מוצא", renderCell: (record: Record) => record.startingPoint, resize: true, sort: { sortKey: "startingPoint" } },
-        { label: "נהג", renderCell: (record: Record) => <Link href={`/record/${record._id}`}>{record.driver.fullName}</Link>, resize: true },
+        { label: "נהג", renderCell: (record: Record) => <Link href={`/record/${record._id}`}>{record?.driver?.fullName}</Link>, resize: true },
         { label: "מזהה נסיעה", renderCell: (record: Record) => record._id, resize: true },
     ]
 

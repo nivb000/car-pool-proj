@@ -15,19 +15,19 @@ const AppHeader = () => {
                 <Image src={logo} width={50} height={50} alt='LOGO' />
             </div>
             <nav className='flex space-between align-center'>
-                <span className={`nav-link ${pathname === '/' || pathname === '/record' ? 'active' : ''} `}>
-                    <Link href="/">
-                        Home
+                <span className={`nav-link ${pathname === '/myaccount' ? 'active' : ''} `}>
+                    <Link href="/myaccount">
+                        החשבון שלי
                     </Link>
                 </span>
                 <span className={`nav-link ${pathname === '/myrides' ? 'active' : ''} `}>
                     <Link href="/myrides">
-                        My Rides
+                       הנסיעות שלי
                     </Link>
                 </span>
-                <span className={`nav-link ${pathname === '/myaccount' ? 'active' : ''} `}>
-                    <Link href="/myaccount">
-                        My Account
+                <span className={`nav-link ${pathname === '/' || pathname === '/record' ? 'active' : ''} `}>
+                    <Link href="/">
+                        עמוד הבית
                     </Link>
                 </span>
             </nav>

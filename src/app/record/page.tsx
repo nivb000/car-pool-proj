@@ -4,6 +4,7 @@ import { RecordTable } from '@/cmps/record-table'
 import Image from 'next/image'
 import car from '../../assets/imgs/car.jpg'
 import { fetcher } from '../../lib/fetcher'
+import { Loader } from '@/cmps/loader'
 
 const RecordApp = () => {
 
@@ -21,7 +22,7 @@ const RecordApp = () => {
       </div>
       <div className='flex col right'>
         {isLoading ?
-          <div>Loading Data...</div>
+          <Loader />
           :
           <RecordTable records={data?.records} />
         }
