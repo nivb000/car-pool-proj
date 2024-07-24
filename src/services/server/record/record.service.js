@@ -22,7 +22,7 @@ async function query(filterBy = {}) {
 async function getById(id) {
     try {
         const collection = await dbService.getCollection('record')
-        const record = collection.findOne({ _id: ObjectId.createFromHexString(id) })
+        const record = await collection.findOne({ _id: ObjectId.createFromHexString(id) })
         return record
     } catch (error) {
         throw error

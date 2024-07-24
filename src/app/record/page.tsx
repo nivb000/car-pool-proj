@@ -1,4 +1,4 @@
-import { getRecords, getRecordById, addRecord } from "@/services/server/record/record.controller"
+import { getRecords } from "@/services/server/record/record.controller"
 import { RecordTable } from '@/cmps/record-table'
 import Image from 'next/image'
 import car from '../../assets/imgs/car.jpg'
@@ -6,7 +6,8 @@ import { Record } from "@/interfaces/record"
 
 const RecordApp = async () => {
 
-  const data: Record[] = await getRecords()
+  let data: Record[] = await getRecords()
+  data = JSON.parse(JSON.stringify(data))
 
   return <section className='record-app'>
     <div className='gradient-overlay'>

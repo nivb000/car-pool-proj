@@ -1,14 +1,18 @@
 import { Record } from '@/interfaces/record'
-import { getRecordById, addRecord } from "@/services/server/record/record.controller"
+import { getRecordById } from "@/services/server/record/record.controller"
 
 const RecordDetails = async ({ params }: { params: { id: string } }) => {
 
-  const { record }: { record: Record } = await getRecordById(params.id)
+  console.log(params)
+  
+
+  const record: Record = await getRecordById(params.id) 
+  record._id = record._id?.toString() 
 
   
-  return <pre>
+  return <h4>
     {record?._id}
-  </pre>
+  </h4>
 }
 
 export default RecordDetails

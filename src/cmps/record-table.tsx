@@ -63,7 +63,7 @@ export const RecordTable = ({ records }: any) => {
         pagination.fns.onSetPage(newPage - 1)
     }
 
-    records = {
+    let recordsToRender = {
         nodes: records.filter((record: any) =>
             record.startingPoint.toLowerCase().includes(search.toLowerCase()) ||
             record.driver.fullName.toLowerCase().includes(search.toLowerCase()) ||
@@ -99,17 +99,18 @@ export const RecordTable = ({ records }: any) => {
         { label: "נהג", renderCell: (record: Record) => <Link href={`/record/${record._id}`}>{record?.driver?.fullName}</Link>, resize: true },
         { label: "מזהה נסיעה", renderCell: (record: Record) => record._id, resize: true },
     ]
+    
 
     return (
         <>
             <div className="flex space-between table-top-toolbar">
-                <Link href="/record/edit"><Button variant="contained" color="warning">
-                    הוסף נסיעה חדשה
-                </Button></Link>
+                <Link href={`/record/edit/startingKm=${records[records.length - 1].driveEndKm}`}>
+                    <Button variant="contained" color="warning">הוסף נסיעה חדשה</Button>
+                </Link>
                 <input id="search" type="search" value={search} onChange={handleSearch} placeholder="חפש" />
             </div>
-            <CompactTable columns={COLUMNS} data={records} theme={theme} layout={{ fixedHeader: true }} sort={sort} pagination={pagination} />
-            <Pagination count={pagination.state.getTotalPages(records.nodes)} color="primary" onChange={handlePageChange} style={{ alignSelf: 'center' }} />
+            <CompactTable columns={COLUMNS} data={recordsToRender} theme={theme} layout={{ fixedHeader: true }} sort={sort} pagination={pagination} />
+            <Pagination count={pagination.state.getTotalPages(recordsToRender.nodes)} color="primary" onChange={handlePageChange} style={{ alignSelf: 'center' }} />
         </>
     )
 }
