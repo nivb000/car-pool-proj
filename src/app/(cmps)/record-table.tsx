@@ -104,7 +104,7 @@ export const RecordTable = ({ records }: any) => {
     return (
         <>
             <div className="flex space-between table-top-toolbar">
-                <Link href={`/record/edit/startingKm=${records[records.length - 1].driveEndKm}`}>
+                <Link href={`/record/edit?lastRideKm=${records[records.length - 1].driveEndKm}`}>
                     <Button variant="contained" color="warning">הוסף נסיעה חדשה</Button>
                 </Link>
                 <input id="search" type="search" value={search} onChange={handleSearch} placeholder="חפש" />

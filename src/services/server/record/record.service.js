@@ -42,8 +42,8 @@ async function add(record) {
     try {
         record.createdAt = Date.now()
         const collection = await dbService.getCollection('record')
-        const addedrecord = await collection.insertOne(record)
-        return addedrecord
+        const addedRecord = await collection.insertOne(record)
+        return addedRecord
     } catch (error) {
         throw error
     }

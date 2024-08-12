@@ -1,5 +1,5 @@
 import { getRecords } from "@/services/server/record/record.controller"
-import { RecordTable } from '@/cmps/record-table'
+import { RecordTable } from '../(cmps)/record-table'
 import Image from 'next/image'
 import car from '../../assets/imgs/car.jpg'
 import { Record } from "@/interfaces/record"
