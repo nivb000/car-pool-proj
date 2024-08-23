@@ -1,13 +1,5 @@
 import recordService from './record.service'
 
-module.export = {
-    getRecords,
-    getRecordById,
-    addRecord,
-    updateRecord,
-    removeRecord
-}
-
 export async function getRecords() {
     try {
         const records = await recordService.query()
@@ -26,9 +18,8 @@ export async function getRecordById(id) {
     }
 }
 
-export async function addRecord(req) {
+export async function addRecord(newRecord) {
     try {
-        const newRecord = await req.json()
         const recordToAdd = await recordService.add(newRecord)
         return recordToAdd
     } catch (error) {

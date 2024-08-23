@@ -1,15 +1,13 @@
-'use client'
-import useSWR from 'swr'
-import { RecordTable } from '@/cmps/record-table'
+import { getRecords } from "@/services/server/record/record.controller"
+import { RecordTable } from '../(cmps)/record-table'
 import Image from 'next/image'
 import car from '../../assets/imgs/car.jpg'
-import { fetcher } from '../../lib/fetcher'
-import { Loader } from '@/cmps/loader'
+import { Record } from "@/interfaces/record"
 
-const RecordApp = () => {
+const RecordApp = async () => {
 
-  const { data, error, isLoading } = useSWR('/api/record', fetcher)
-
+  let data: Record[] = await getRecords()
+  data = JSON.parse(JSON.stringify(data))
 
   return <section className='record-app'>
     <div className='gradient-overlay'>
@@ -21,11 +19,7 @@ const RecordApp = () => {
         <Image src={car} width={300} height={300} alt='blue-car-image' />
       </div>
       <div className='flex col right'>
-        {isLoading ?
-          <Loader />
-          :
-          <RecordTable records={data?.records} />
-        }
+        <RecordTable records={data} />
       </div>
     </section>
   </section>

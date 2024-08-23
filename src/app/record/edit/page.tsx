@@ -1,12 +1,15 @@
-'use client'
+"use client"
 import { useState } from "react"
 import { Button } from "@mui/material"
 import Image from "next/image"
 import carOrder from "@/assets/imgs/order-car.png"
 import { httpService } from '@/services/http.service'
+import { useSearchParams } from 'next/navigation'
 
 const RecordEdit = () => {
 
+    const searchParams = useSearchParams()
+    
     const [record, setRecord] = useState({
         startingKm: 0,
         driveEndKm: 0,
@@ -16,13 +19,15 @@ const RecordEdit = () => {
         car: 11111111
     })
 
+
     const handleChange = ({ target }: React.ChangeEvent<HTMLInputElement>) => {
+        
         const name = target.name
         let value: any
         switch (name) {
             case 'startingKm':
             case 'driveEndKm':
-                value = +target.value
+                value = Number(target.value)
                 break;
             default:
                 value = target.value
@@ -34,7 +39,6 @@ const RecordEdit = () => {
     const handleSubmit = async (ev: React.FormEvent) => {
         ev.preventDefault()
         const newRecord = await httpService.post('record', record)
-        console.log(newRecord)
     }
 
     return <section className="flex space-evenly record-edit">
@@ -52,7 +56,7 @@ const RecordEdit = () => {
                     </div>
                     <div className="input-field">
                         <label htmlFor="startingKm"></label>
-                        <input type="number" defaultValue={125} name="startingKm" id="destinationPoint" placeholder="קילומטר תחילת נסיעה" onChange={handleChange} />
+                        <input type="number" name="startingKm" defaultValue={Number(searchParams.get('lastRideKm'))} id="destinationPoint" placeholder="קילומטר תחילת נסיעה" onChange={handleChange} />
                     </div>
                     <div className="input-field">
                         <label htmlFor="destinationPoint"></label>
@@ -76,3 +80,72 @@ const RecordEdit = () => {
 }
 
 export default RecordEdit
+
+
+
+
+
+
+
+// import Image from "next/image"
+// import carOrder from "@/assets/imgs/order-car.png"
+// import { addRecord } from "@/services/server/record/record.controller"
+
+
+
+// const RecordEdit = () => {
+
+    
+//     const handleSubmit = async(formData: FormData) => {
+//         'use server'
+//         const newRecord = {
+//             startingPoint: formData.get('startingPoint'),
+//             destinationPoint: formData.get('destinationPoint'),
+//             startingKm: formData.get('startingKm'),
+//             driveEndKm: formData.get('driveEndKm')
+//         }
+//         await addRecord(newRecord)
+//         alert("RECORD ADDED")
+        
+//     }
+
+
+//     return <section className="flex space-evenly record-edit">
+//         <section className="form-container flex col align-center">
+//             <div className="wrapper">
+//                 <h1>הוסף נסיעה חדשה</h1>
+//                 <form className="flex col space-between" autoComplete="off" action={handleSubmit}>
+//                     <div className="input-field">
+//                         <label htmlFor="startingPoint"></label>
+//                         <input type="text" name="startingPoint" id="startingPoint" placeholder="נקודת מוצא" />
+//                     </div>
+//                     <div className="input-field">
+//                         <label htmlFor="destinationPoint"></label>
+//                         <input type="text" name="destinationPoint" id="destinationPoint" placeholder="נקודת יעד" />
+//                     </div>
+//                     <div className="input-field">
+//                         <label htmlFor="startingKm"></label>
+//                         <input type="number" defaultValue={125} name="startingKm" id="destinationPoint" placeholder="קילומטר תחילת נסיעה" />
+//                     </div>
+//                     <div className="input-field">
+//                         <label htmlFor="destinationPoint"></label>
+//                         <input type="number" name="driveEndKm" id="destinationPoint" placeholder="קילומטר סוף נסיעה" />
+//                     </div>
+//                     <div className="input-field">
+//                         <button type="submit">
+//                             הוסף נסיעה
+//                         </button>
+//                     </div>
+//                 </form>
+//             </div>
+//         </section>
+//         <section className="left-section">
+//             <div className="image-container">
+//                 <Image src={carOrder} width={500} height={500} alt='blue-car-image' />
+//             </div>
+//         </section>
+
+//     </section>
+// }
+
+// export default RecordEdit

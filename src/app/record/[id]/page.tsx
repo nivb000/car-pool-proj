@@ -1,18 +1,17 @@
 import { Record } from '@/interfaces/record'
-
-async function getRecord(recordId: string) {
-  const res = await fetch(`http://localhost:3000/api/record?id=${recordId}`, { cache: 'no-store' })
-  return res.json()
-}
+import { getRecordById } from "@/services/server/record/record.controller"
 
 const RecordDetails = async ({ params }: { params: { id: string } }) => {
 
-  const { record }: { record: Record } = await getRecord(params.id)
+  const record: Record = await getRecordById(params.id) 
+  record._id = record._id?.toString()
+  console.log(record)
+   
 
   
-  return <pre>
+  return <h4>
     {record?._id}
-  </pre>
+  </h4>
 }
 
 export default RecordDetails

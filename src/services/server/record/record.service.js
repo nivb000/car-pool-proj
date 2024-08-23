@@ -22,7 +22,7 @@ async function query(filterBy = {}) {
 async function getById(id) {
     try {
         const collection = await dbService.getCollection('record')
-        const record = collection.findOne({ _id: ObjectId.createFromHexString(id) })
+        const record = await collection.findOne({ _id: ObjectId.createFromHexString(id) })
         return record
     } catch (error) {
         throw error
@@ -42,8 +42,8 @@ async function add(record) {
     try {
         record.createdAt = Date.now()
         const collection = await dbService.getCollection('record')
-        const addedrecord = await collection.insertOne(record)
-        return addedrecord
+        const addedRecord = await collection.insertOne(record)
+        return addedRecord
     } catch (error) {
         throw error
     }
