@@ -12,7 +12,7 @@ const AppHeader = () => {
     return <header className='app-header'>
         <section className='main-layout flex space-between align-center navbar-container'>
             <div className='logo'>
-                <Image src={logo} width={50} height={50} alt='LOGO' />
+                <Image src={logo} width={50} height={50} alt='LOGO' priority={true} />
             </div>
             <nav className='flex space-between align-center'>
                 <span className={`nav-link ${pathname === '/myaccount' ? 'active' : ''} `}>

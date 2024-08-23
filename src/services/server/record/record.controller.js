@@ -18,10 +18,11 @@ export async function getRecordById(id) {
     }
 }
 
-export async function addRecord(newRecord) {
+export async function addRecord(req) {
     try {
-        const recordToAdd = await recordService.add(newRecord)
-        return recordToAdd
+        const newRecord = await req.json()
+        const addedRecord = await recordService.add(newRecord)
+        return addedRecord
     } catch (error) {
         throw error
     }
@@ -29,7 +30,8 @@ export async function addRecord(newRecord) {
 
 export async function updateRecord(req, res) {
     try {
-        const record = req.body
+        const record = req.json()
+        // const record = req.body
         const updatedrecord = await recordService.update(record)
         res.json(updatedrecord)
     } catch (error) {

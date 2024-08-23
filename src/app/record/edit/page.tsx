@@ -5,27 +5,40 @@ import Image from "next/image"
 import carOrder from "@/assets/imgs/order-car.png"
 import { httpService } from '@/services/http.service'
 import { useSearchParams } from 'next/navigation'
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
+import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker'
+import dayjs from 'dayjs'
+
+
+
+
 
 const RecordEdit = () => {
 
     const searchParams = useSearchParams()
     
     const [record, setRecord] = useState({
-        startingKm: 0,
+        driver:{
+            _id: 'dsgdklsgkldsdsfsdf',
+            fullName: 'John Doe'
+        },
+        startKm: Number(searchParams.get('lastRideKm')) || 0,
         driveEndKm: 0,
-        date: new Date().getTime(),
+        startDate: dayjs(),
+        endDate: dayjs(),
         destinationPoint: "",
         startingPoint: "",
-        car: 11111111
+        car: 11111111,
+        status: 'completed'
     })
-
 
     const handleChange = ({ target }: React.ChangeEvent<HTMLInputElement>) => {
         
         const name = target.name
         let value: any
         switch (name) {
-            case 'startingKm':
+            case 'startKm':
             case 'driveEndKm':
                 value = Number(target.value)
                 break;
@@ -55,12 +68,30 @@ const RecordEdit = () => {
                         <input type="text" name="destinationPoint" id="destinationPoint" placeholder="נקודת יעד" onChange={handleChange} />
                     </div>
                     <div className="input-field">
-                        <label htmlFor="startingKm"></label>
-                        <input type="number" name="startingKm" defaultValue={Number(searchParams.get('lastRideKm'))} id="destinationPoint" placeholder="קילומטר תחילת נסיעה" onChange={handleChange} />
+                        <label htmlFor="startKm"></label>
+                        <input type="number" name="startKm" value={record.startKm} id="startKm" placeholder="קילומטר תחילת נסיעה" onChange={handleChange} />
                     </div>
                     <div className="input-field">
-                        <label htmlFor="destinationPoint"></label>
-                        <input type="number" name="driveEndKm" id="destinationPoint" placeholder="קילומטר סוף נסיעה" onChange={handleChange} />
+                        <label htmlFor="driveEndKm"></label>
+                        <input type="number" name="driveEndKm" id="driveEndKm" placeholder="קילומטר סוף נסיעה" onChange={handleChange} />
+                    </div>
+                    <div className="datepicker-field" dir="ltr">
+                        <LocalizationProvider dateAdapter={AdapterDayjs}>
+                            <DateTimePicker 
+                            label="תאריך התחלה"
+                            value={record.startDate}
+                            onChange={(newValue) => newValue ? setRecord(prevState => ({ ...prevState, startDate: newValue })) : null}
+                            ampm={false} />
+                        </LocalizationProvider>
+                    </div>
+                    <div className="datepicker-field" dir="ltr">
+                        <LocalizationProvider dateAdapter={AdapterDayjs}>
+                            <DateTimePicker 
+                            label="תאריך סיום"
+                            value={record.endDate}
+                            onChange={(newValue) => newValue ? setRecord(prevState => ({ ...prevState, endDate: newValue })) : null}
+                            ampm={false} />
+                        </LocalizationProvider>
                     </div>
                     <div className="input-field">
                         <Button variant="contained" color="success" fullWidth type="submit">
@@ -72,7 +103,7 @@ const RecordEdit = () => {
         </section>
         <section className="left-section">
             <div className="image-container">
-                <Image src={carOrder} width={500} height={500} alt='blue-car-image' />
+                <Image src={carOrder} width={400} height={400} alt='blue-car-image' />
             </div>
         </section>
 
@@ -101,7 +132,7 @@ export default RecordEdit
 //         const newRecord = {
 //             startingPoint: formData.get('startingPoint'),
 //             destinationPoint: formData.get('destinationPoint'),
-//             startingKm: formData.get('startingKm'),
+//             startKm: formData.get('startKm'),
 //             driveEndKm: formData.get('driveEndKm')
 //         }
 //         await addRecord(newRecord)
@@ -124,8 +155,8 @@ export default RecordEdit
 //                         <input type="text" name="destinationPoint" id="destinationPoint" placeholder="נקודת יעד" />
 //                     </div>
 //                     <div className="input-field">
-//                         <label htmlFor="startingKm"></label>
-//                         <input type="number" defaultValue={125} name="startingKm" id="destinationPoint" placeholder="קילומטר תחילת נסיעה" />
+//                         <label htmlFor="startKm"></label>
+//                         <input type="number" defaultValue={125} name="startKm" id="destinationPoint" placeholder="קילומטר תחילת נסיעה" />
 //                     </div>
 //                     <div className="input-field">
 //                         <label htmlFor="destinationPoint"></label>

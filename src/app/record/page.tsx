@@ -19,7 +19,7 @@ const RecordApp = async () => {
         <Image src={car} width={300} height={300} alt='blue-car-image' />
       </div>
       <div className='flex col right'>
-        <RecordTable records={data} />
+          <RecordTable records={data} />
       </div>
     </section>
   </section>

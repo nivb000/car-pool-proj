@@ -10,7 +10,7 @@ const RecordDetails = async ({ params }: { params: { id: string } }) => {
 
   
   return <h4>
-    {record?._id}
+    RECORD: {record?._id}
   </h4>
 }
 

@@ -2,6 +2,20 @@ import { getRecords, getRecordById, addRecord } from "@/services/server/record/r
 
 export async function GET(req: Request) {
 
+    const records = await getRecords()
+    return Response.json({ records })
+}
+
+
+export async function POST(req: Request) {
+    const newRecord = await addRecord(req)
+    return Response.json({ newRecord })
+}
+
+
+
+
+    // To GET one record By ID
     // const { searchParams } = new URL(req.url)
     // const id = searchParams.get('id')
 
@@ -13,12 +27,3 @@ export async function GET(req: Request) {
     //         return Response.json({ status: 404, statusText: "Cannot get record" })
     //     }
     // }
-
-    const records = await getRecords()
-
-    return Response.json({ records })
-}
-export async function POST(req: Request) {
-    const newRecord = await addRecord(req)
-    return Response.json({ newRecord })
-}

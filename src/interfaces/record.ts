@@ -1,14 +1,19 @@
+import { Dayjs } from "dayjs";
+import { Double } from "mongodb";
+
 export interface Record {
     _id?: string;
     driver: {
       _id: string;
       fullName: string;
     };
-    startingKm: number;
+    startKm: number;
     driveEndKm: number;
-    date: Date;
+    startDate: Dayjs  | null;
+    endDate: Dayjs  | null;
     destinationPoint: string;
     startingPoint: string;
     car: number,
-    status: string
+    status: string,
+    createdAt: Double
   }

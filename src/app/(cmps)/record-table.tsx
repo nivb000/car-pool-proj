@@ -14,6 +14,7 @@ import Link from "next/link"
 export const RecordTable = ({ records }: any) => {
 
     const [search, setSearch] = useState("")
+
     const theme = useTheme([
         getTheme(),
         {
@@ -48,7 +49,6 @@ export const RecordTable = ({ records }: any) => {
     ])
 
     const handleSearch = ({ target }: React.ChangeEvent<HTMLInputElement>) => {
-        // const value = target.value
         setSearch(target.value)
     }
 
@@ -79,7 +79,7 @@ export const RecordTable = ({ records }: any) => {
         {
             sortFns: {
                 ENDKM: (array: Record[]) => array.sort((a, b) => a.driveEndKm - b.driveEndKm),
-                STARTKM: (array: Record[]) => array.sort((a, b) => a.startingKm - b.startingKm),
+                STARTKM: (array: Record[]) => array.sort((a, b) => a.startKm - b.startKm),
                 startingPoint: (array: Record[]) => array.sort((a, b) => a.startingPoint.localeCompare(b.startingPoint)),
                 destination: (array: Record[]) => array.sort((a, b) => a.destinationPoint.localeCompare(b.destinationPoint)),
             }
@@ -91,20 +91,21 @@ export const RecordTable = ({ records }: any) => {
     }
 
     const COLUMNS = [
-        { label: "תאריך", renderCell: (record: Record) => new Date(record.date).toLocaleDateString('he-IL'), resize: true },
+        { label: "תאריך סיום", renderCell: (record: Record) => new Date(record.endDate).toLocaleDateString('he-IL'), resize: true },
+        { label: "תאריך התחלה", renderCell: (record: Record) => new Date(record.startDate).toLocaleDateString('he-IL'), resize: true },
         { label: 'ק"מ סוף נסיעה', renderCell: (record: Record) => record.driveEndKm, resize: true, sort: { sortKey: "ENDKM" } },
-        { label: 'ק"מ תחילת נסיעה', renderCell: (record: Record) => record.startingKm, resize: true, sort: { sortKey: "STARTKM" } },
+        { label: 'ק"מ תחילת נסיעה', renderCell: (record: Record) => record.startKm, resize: true, sort: { sortKey: "STARTKM" } },
         { label: "נקודת יעד", renderCell: (record: Record) => record.destinationPoint, resize: true, sort: { sortKey: "destination" } },
         { label: "נקודת מוצא", renderCell: (record: Record) => record.startingPoint, resize: true, sort: { sortKey: "startingPoint" } },
         { label: "נהג", renderCell: (record: Record) => <Link href={`/record/${record._id}`}>{record?.driver?.fullName}</Link>, resize: true },
-        { label: "מזהה נסיעה", renderCell: (record: Record) => record._id, resize: true },
+        // { label: "מזהה נסיעה", renderCell: (record: Record) => record._id, resize: true },
     ]
-    
+
 
     return (
         <>
             <div className="flex space-between table-top-toolbar">
-                <Link href={`/record/edit?lastRideKm=${records[records.length - 1].driveEndKm}`}>
+                <Link href={`/record/edit?lastRideKm=${records.length > 0 ? records[records.length - 1].driveEndKm : 0}`}>
                     <Button variant="contained" color="warning">הוסף נסיעה חדשה</Button>
                 </Link>
                 <input id="search" type="search" value={search} onChange={handleSearch} placeholder="חפש" />

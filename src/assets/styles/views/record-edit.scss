@@ -38,6 +38,28 @@
                         }
                     }
                 }
+                .datepicker-field{
+                    margin: 1.5rem 0;
+                    .css-z3c6am-MuiFormControl-root-MuiTextField-root{
+                        width: 100%;
+                    }
+                    // Text Color
+                    .css-o9k5xi-MuiInputBase-root-MuiOutlinedInput-root{
+                        color: white;
+                    }
+                    // Label
+                    .css-1jy569b-MuiFormLabel-root-MuiInputLabel-root{
+                        color: white;
+                    }
+                    // Border
+                    .MuiOutlinedInput-notchedOutline{
+                        border: 3px solid silver;
+                    }
+                    // SVG
+                    .css-1yq5fb3-MuiButtonBase-root-MuiIconButton-root{
+                        color: white;
+                    }
+                }
             }
         }
     }
