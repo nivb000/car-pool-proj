@@ -10,7 +10,7 @@ const AppHeader = () => {
     const pathname = usePathname()
 
     return <header className='app-header'>
-        <section className='main-layout flex align-center navbar-container'>
+        <section className='main-layout flex space-between align-center navbar-container'>
             <div className='logo'>
                 <Image src={logo} width={50} height={50} alt='LOGO' />
             </div>
@@ -31,6 +31,7 @@ const AppHeader = () => {
                     </Link>
                 </span>
             </nav>
+            <div></div>
         </section>
     </header>
 }
