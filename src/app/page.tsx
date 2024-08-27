@@ -1,15 +1,17 @@
-import { redirect } from "next/navigation"
+import { getSession } from '@auth0/nextjs-auth0'
 
-export default function Home() {
-
-  // TODO: CHECK IF LOGGED IN REDIRECT RECORD ELSE REDIRECT LOGIN
-  redirect('/record')
+const Home = async () => {
 
   //SORT TABLE BY LAST ONE
-  //ADD USER AUTH
   //REPLACE RECORD DRIVER WITH THE CURRENT LOGGED USER
+  //Add car object
+  //Add admin dashboard
+
+  const user = await getSession()
 
   return <section className="home-page">
-    <h3>Hi from homepage</h3>
+    <h3>Hi from login page</h3>
+    
   </section>
 }
+export default Home
