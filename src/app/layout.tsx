@@ -3,9 +3,7 @@ import { Inter } from "next/font/google"
 import { UserProvider } from '@auth0/nextjs-auth0/client'
 import "../assets/styles/main.scss"
 import AppHeader from "./(cmps)/app-header"
-import { getUser } from "@/services/server/auth/session.service"
-
-// TODO: COTEXTPROVIDER IN ORDER TO USE ON CLIENT COMPONENT ABOUT AUTH
+import { getUser } from '@/services/server/auth/session.service'
 
 const inter = Inter({ subsets: ["latin"] })
 
@@ -16,7 +14,7 @@ export const metadata: Metadata = {
 
 export default async function RootLayout({ children, }: Readonly<{ children: React.ReactNode; }>) {
 
-  const user = await getUser()
+  const user = await getUser() || null 
 
   return (
     <html lang="en">

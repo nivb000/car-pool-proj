@@ -9,6 +9,8 @@ import { User } from '@/interfaces/user'
 const AppHeader = ({ user }: { user: User }) => {
 
     const pathname = usePathname()
+    console.log("USER FROM HEADER", user)
+
 
     return <header className='app-header'>
         <section className='main-layout flex space-between align-center navbar-container'>
@@ -35,7 +37,7 @@ const AppHeader = ({ user }: { user: User }) => {
             <div>
                 {user &&
                     <div className='flex col'>
-                        <span>Hi {user.name}</span>
+                        <span>Hi {user?.name}</span>
                         <button>Log Out</button>
                     </div>
                 }
