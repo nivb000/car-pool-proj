@@ -19,14 +19,3 @@ export const LoginFormSchema = z.object({
     .min(5, { message: 'Be at least 5 characters long' })
     .trim(),
 })
- 
-export type FormState =
-  | {
-      errors?: {
-        name?: string[]
-        email?: string[]
-        password?: string[]
-      }
-      message?: string
-    }
-  | undefined

@@ -1,18 +1,20 @@
 "use server"
 
 import { getByEmail } from '../user/user.service'
-import { LoginFormSchema, FormState } from '@/lib/definitions'
+import { LoginFormSchema } from '@/lib/definitions'
+import { FormState } from '@/interfaces/formState'
+import { createSession, deleteSession } from './session.service'
 import bcrypt from 'bcrypt'
 
 
 export async function login(state: FormState, formData: FormData) {
-  
+
 
   const validatedFields = LoginFormSchema.safeParse({
     email: formData.get('email'),
     password: formData.get('password'),
   })
-  
+
 
   // If any form fields are invalid, return early
   if (!validatedFields.success) {
@@ -35,12 +37,8 @@ export async function login(state: FormState, formData: FormData) {
     return { message: 'Cannot find user' }
   }
 
-  console.log("USER is", user)
-
-
-  // 4. If login successful, create a session for the user and redirect
-  // const userId = user.id.toString();
-  // await createSession(userId);
+  const userId = user._id.toString()
+  await createSession(userId)
 }
 
 
@@ -49,3 +47,8 @@ export async function login(state: FormState, formData: FormData) {
 //   const hash = await bcrypt.hash(password, 10)
 //   return userService.add({ username, password: hash, fullname })
 // }
+
+
+export async function logout() {
+  deleteSession()
+}

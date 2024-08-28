@@ -11,9 +11,10 @@ import Button from '@mui/material/Button'
 import { Pagination } from "@mui/material"
 import Link from "next/link"
 
-export const RecordTable = ({ records }: any) => {
+export const RecordTable = async({ records }: any) => {
 
     const [search, setSearch] = useState("")
+    
 
     const theme = useTheme([
         getTheme(),

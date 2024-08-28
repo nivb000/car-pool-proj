@@ -21,7 +21,7 @@ export async function query() {
 export async function getById(userId) {
     try {
         const collection = await dbService.getCollection('user')
-        const user = await collection.findOne({ '_id': ObjectId.createFromHexString(id) })
+        const user = await collection.findOne({ '_id': ObjectId.createFromHexString(userId) })
         delete user.password
         return user
     } catch (err) {
@@ -53,8 +53,8 @@ export async function update(user) {
         // peek only updatable fields!
         const userToSave = {
             _id: ObjectId(user._id),
-            username: user.username,
-            fullname: user.fullname,
+            email: user.username,
+            name: user.fullname,
             isHost: user.isHost
         }
         const collection = await dbService.getCollection('user')

@@ -3,13 +3,12 @@ import Image from 'next/image'
 import logo from '@/assets/imgs/ness-logo.png'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { useUser } from '@auth0/nextjs-auth0/client';
+import { User } from '@/interfaces/user'
 
 
-const AppHeader = () => {
+const AppHeader = ({ user }: { user: User }) => {
 
     const pathname = usePathname()
-    const { user, error, isLoading } = useUser()
 
     return <header className='app-header'>
         <section className='main-layout flex space-between align-center navbar-container'>
@@ -24,7 +23,7 @@ const AppHeader = () => {
                 </span>
                 <span className={`nav-link ${pathname === '/myrides' ? 'active' : ''} `}>
                     <Link href="/myrides">
-                       הנסיעות שלי
+                        הנסיעות שלי
                     </Link>
                 </span>
                 <span className={`nav-link ${pathname === '/' || pathname === '/record' ? 'active' : ''} `}>
@@ -34,11 +33,11 @@ const AppHeader = () => {
                 </span>
             </nav>
             <div>
-                {user && 
-                <div className='flex col'>
-                    <span>Hi {user.name}</span>
-                    <Link href="/api/auth/logout"><button>Log Out</button></Link>
-                </div>
+                {user &&
+                    <div className='flex col'>
+                        <span>Hi {user.name}</span>
+                        <button>Log Out</button>
+                    </div>
                 }
             </div>
         </section>
