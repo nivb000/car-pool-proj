@@ -1,4 +1,4 @@
-import { getSession } from '@auth0/nextjs-auth0'
+import LoginForm from './(cmps)/login-form'
 
 const Home = async () => {
 
@@ -7,11 +7,8 @@ const Home = async () => {
   //Add car object
   //Add admin dashboard
 
-  const user = await getSession()
-
   return <section className="home-page">
-    <h3>Hi from login page</h3>
-    
+    <LoginForm />
   </section>
 }
 export default Home

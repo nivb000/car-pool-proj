@@ -31,7 +31,7 @@ async function getById(id) {
 async function remove(id) {
     try {
         const collection = await dbService.getCollection('record')
-        await collection.deleteOne({ _id: ObjectId(id) })
+        await collection.deleteOne({ _id: ObjectId.createFromHexString(id) })
         return id
     } catch (error) {
         throw error
