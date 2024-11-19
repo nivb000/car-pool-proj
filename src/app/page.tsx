@@ -5,7 +5,6 @@ import { getUser } from '@/services/server/auth/session.service'
 const Home = async () => {
 
   //SORT TABLE BY LAST ONE
-  //REPLACE RECORD DRIVER WITH THE CURRENT LOGGED USER
   //Add car object
   //Add admin dashboard
 
