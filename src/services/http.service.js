@@ -20,7 +20,7 @@ async function ajax(endpoint, method = 'GET', data = null) {
         const res = await fetch(`${BASE_URL}${endpoint}`,
         {
             method,
-            body: JSON.stringify(data),
+            body: data ? JSON.stringify(data) : null,
             params: (method === 'GET') ? data : null
         })
         return res.json()

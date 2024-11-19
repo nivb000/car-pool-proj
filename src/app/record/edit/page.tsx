@@ -1,28 +1,47 @@
 "use client"
-import { useState } from "react"
+import { useState} from "react"
 import { Button } from "@mui/material"
 import Image from "next/image"
 import carOrder from "@/assets/imgs/order-car.png"
-import { httpService } from '@/services/http.service'
 import { useSearchParams } from 'next/navigation'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker'
 import dayjs from 'dayjs'
+import useSWR from 'swr'
+import {fetcher} from '@/lib/fetcher'
+import { httpService } from "@/services/http.service"
+import Snackbar, { SnackbarCloseReason } from '@mui/material/Snackbar'
+import Alert from '@mui/material/Alert'
 
 
 
-
+//TODO: SNACKBAR
 
 const RecordEdit = () => {
 
     const searchParams = useSearchParams()
+    const { data: user, error, isLoading } = useSWR('/api/auth', fetcher)
+    const [openAlert, setOpenAlert] = useState(false)
+    const handleClick = () => {
+        setOpenAlert(true)
+    };
+  
+    const handleClose = (
+      event?: React.SyntheticEvent | Event,
+      reason?: SnackbarCloseReason,
+    ) => {
+      if (reason === 'clickaway') {
+        return;
+      }
+  
+      setOpenAlert(false)
+    };
     
+    
+
     const [record, setRecord] = useState({
-        driver:{
-            _id: 'dsgdklsgkldsdsfsdf',
-            fullName: 'John Doe'
-        },
+        driver:{...user},
         startKm: Number(searchParams.get('lastRideKm')) || 0,
         driveEndKm: 0,
         startDate: dayjs(),
@@ -52,7 +71,8 @@ const RecordEdit = () => {
     const handleSubmit = async (ev: React.FormEvent) => {
         ev.preventDefault()
         const newRecord = await httpService.post('record', record)
-    }
+        setOpenAlert(true)
+    } 
 
     return <section className="flex space-evenly record-edit">
         <section className="form-container flex col align-center">
@@ -106,6 +126,16 @@ const RecordEdit = () => {
                 <Image src={carOrder} width={400} height={400} alt='blue-car-image' />
             </div>
         </section>
+
+        <Snackbar open={openAlert} autoHideDuration={3000} onClose={handleClose}>
+        <Alert
+          onClose={handleClose}
+          severity="success"
+          variant="filled"
+          sx={{ width: '100%' }}>
+          נסיעה נוספה בהצלחה
+        </Alert>
+      </Snackbar>
 
     </section>
 }

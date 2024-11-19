@@ -76,10 +76,6 @@ export async function updateSession() {
     });
 }
 
-export function deleteSession() {
-    cookies().delete('session')
-}
-
 export const getUser = cache(async () => {
     const session = await verifySession();
     if (!session) return null;
@@ -93,3 +89,7 @@ export const getUser = cache(async () => {
         return null
     }
 })
+
+export function deleteSession() {
+    cookies().delete('session')
+}

@@ -2,15 +2,20 @@
 import Image from 'next/image'
 import logo from '@/assets/imgs/ness-logo.png'
 import Link from 'next/link'
-import { usePathname } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
 import { User } from '@/interfaces/user'
+import { httpService } from '@/services/http.service'
 
 
 const AppHeader = ({ user }: { user: User }) => {
 
     const pathname = usePathname()
-    console.log("USER FROM HEADER", user)
+    const router = useRouter()
 
+    const handleLogout = async () => {
+        await httpService.delete('auth')
+        router.push('/')
+    }
 
     return <header className='app-header'>
         <section className='main-layout flex space-between align-center navbar-container'>
@@ -38,7 +43,7 @@ const AppHeader = ({ user }: { user: User }) => {
                 {user &&
                     <div className='flex col'>
                         <span>Hi {user?.name}</span>
-                        <button>Log Out</button>
+                        <button onClick={handleLogout}>Log Out</button>
                     </div>
                 }
             </div>
