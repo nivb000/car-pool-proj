@@ -9,11 +9,16 @@ import { usePagination } from "@table-library/react-table-library/pagination"
 import { Record } from "@/interfaces/record"
 import Button from '@mui/material/Button'
 import { Pagination } from "@mui/material"
+import { RecordModal } from "./record-modal"
 import Link from "next/link"
 
 export const RecordTable = async({ records }: any) => {
 
     const [search, setSearch] = useState("")
+    const [openModal, setOpenModal] = useState(false)
+    const handleOpen = () => setOpenModal(true)
+    const handleClose = () => setOpenModal(false)
+    const user = null
     
 
     const theme = useTheme([
@@ -91,15 +96,15 @@ export const RecordTable = async({ records }: any) => {
         console.log(action, state)
     }
 
+
     const COLUMNS = [
         { label: "תאריך סיום", renderCell: (record: Record) => new Date(record.endDate).toLocaleDateString('he-IL'), resize: true },
         { label: "תאריך התחלה", renderCell: (record: Record) => new Date(record.startDate).toLocaleDateString('he-IL'), resize: true },
-        { label: 'ק"מ סוף נסיעה', renderCell: (record: Record) => record.driveEndKm, resize: true, sort: { sortKey: "ENDKM" } },
-        { label: 'ק"מ תחילת נסיעה', renderCell: (record: Record) => record.startKm, resize: true, sort: { sortKey: "STARTKM" } },
+        { label: 'ק"מ סוף נסיעה', renderCell: (record: Record) => record.driveEndKm.toLocaleString('he-IL'), resize: true, sort: { sortKey: "ENDKM" } },
+        { label: 'ק"מ תחילת נסיעה', renderCell: (record: Record) => record.startKm.toLocaleString('he-IL'), resize: true, sort: { sortKey: "STARTKM" } },
         { label: "נקודת יעד", renderCell: (record: Record) => record.destinationPoint, resize: true, sort: { sortKey: "destination" } },
         { label: "נקודת מוצא", renderCell: (record: Record) => record.startingPoint, resize: true, sort: { sortKey: "startingPoint" } },
-        { label: "נהג", renderCell: (record: Record) => <Link href={`/record/${record._id}`}>{record?.driver?.fullName}</Link>, resize: true },
-        // { label: "מזהה נסיעה", renderCell: (record: Record) => record._id, resize: true },
+        { label: "נהג", renderCell: (record: Record) => <RecordModal record={record} />, resize: true },
     ]
 
 

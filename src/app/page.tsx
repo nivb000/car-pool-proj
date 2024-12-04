@@ -5,8 +5,20 @@ import { getUser } from '@/services/server/auth/session.service'
 const Home = async () => {
 
   //SORT TABLE BY LAST ONE
-  //Add car object
   //Add admin dashboard
+  
+  
+  //Add car object
+  // car licenseNumber:
+  // car manufacturer
+  // car Model
+  // car Year
+  // Car currentKM
+  // car owner userId
+  // Car keysAssignedTo: {User}...(Last driver)
+
+  // Add user manager Id
+
 
   const user = await getUser() || null
 

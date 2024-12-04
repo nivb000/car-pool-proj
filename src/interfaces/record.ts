@@ -5,7 +5,8 @@ export interface Record {
     _id?: string;
     driver: {
       _id: string;
-      fullName: string;
+      email: string;
+      name: string;
     };
     startKm: number;
     driveEndKm: number;
