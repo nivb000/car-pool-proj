@@ -12,13 +12,12 @@ import { Pagination } from "@mui/material"
 import { RecordModal } from "./record-modal"
 import Link from "next/link"
 
-export const RecordTable = async({ records }: any) => {
+export const RecordTable = ({ records }: {records: Record[]}) => {
 
     const [search, setSearch] = useState("")
     const [openModal, setOpenModal] = useState(false)
     const handleOpen = () => setOpenModal(true)
     const handleClose = () => setOpenModal(false)
-    const user = null
     
 
     const theme = useTheme([
@@ -72,7 +71,7 @@ export const RecordTable = async({ records }: any) => {
     let recordsToRender = {
         nodes: records.filter((record: any) =>
             record.startingPoint.toLowerCase().includes(search.toLowerCase()) ||
-            record.driver.fullName.toLowerCase().includes(search.toLowerCase()) ||
+            record.driver.name.toLowerCase().includes(search.toLowerCase()) ||
             record.destinationPoint.toLowerCase().includes(search.toLowerCase())
         ),
     }

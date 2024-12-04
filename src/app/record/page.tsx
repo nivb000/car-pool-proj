@@ -3,12 +3,12 @@ import { RecordTable } from '../(cmps)/record-table'
 import Image from 'next/image'
 import car from '../../assets/imgs/car.jpg'
 import { Record } from "@/interfaces/record"
-import { getUser } from "@/services/server/auth/session.service"
 
 const RecordApp = async () => {  
 
   let data: Record[] = await getRecords()
   data = JSON.parse(JSON.stringify(data))
+  
 
   return <section className='record-app'>
     <div className='gradient-overlay'>
