@@ -11,14 +11,17 @@ import Button from '@mui/material/Button'
 import { Pagination } from "@mui/material"
 import { RecordModal } from "./record-modal"
 import Link from "next/link"
+import useSWR from 'swr'
+import { fetcher } from '@/lib/fetcher'
 
-export const RecordTable = ({ records }: {records: Record[]}) => {
+export const RecordTable = ({ records }: { records: Record[] }) => {
 
+    const { data: user, error, isLoading } = useSWR('/api/auth', fetcher)
     const [search, setSearch] = useState("")
     const [openModal, setOpenModal] = useState(false)
     const handleOpen = () => setOpenModal(true)
     const handleClose = () => setOpenModal(false)
-    
+
 
     const theme = useTheme([
         getTheme(),
@@ -75,6 +78,8 @@ export const RecordTable = ({ records }: {records: Record[]}) => {
             record.destinationPoint.toLowerCase().includes(search.toLowerCase())
         ),
     }
+    
+    
 
     const sort = useSort(
         records,
@@ -105,6 +110,19 @@ export const RecordTable = ({ records }: {records: Record[]}) => {
         { label: "נקודת מוצא", renderCell: (record: Record) => record.startingPoint, resize: true, sort: { sortKey: "startingPoint" } },
         { label: "נהג", renderCell: (record: Record) => <RecordModal record={record} />, resize: true },
     ]
+
+    if (user?.isAdmin) {
+        COLUMNS.unshift(
+            {
+                label: "פעולות", renderCell: (record: Record) => (
+                    <div>
+                        <button>מחק</button>
+                        <button>שנה</button>
+                    </div>
+                ), resize: true
+            },
+        )
+    }
 
 
     return (

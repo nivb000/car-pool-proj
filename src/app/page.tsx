@@ -25,7 +25,7 @@ const Home = async () => {
   {user && redirect('record')}
 
   return <section className="home-page">
-      <LoginForm />
+    <LoginForm />
   </section>
 }
 export default Home
