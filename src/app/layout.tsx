@@ -19,7 +19,7 @@ export default async function RootLayout({ children, }: Readonly<{ children: Rea
   return (
     <html lang="en">
       <UserProvider>
-        <body className={inter.className}>
+        <body className={inter.className} suppressHydrationWarning={true}>
           <AppHeader user={user} />
           <main>
             {children}

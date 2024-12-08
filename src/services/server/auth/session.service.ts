@@ -50,8 +50,7 @@ export async function verifySession() {
     const session = await decrypt(cookie);
 
     if (!session?.userId) {
-        // redirect('/')
-        return
+        return { isAuth: false }
     }
     
 

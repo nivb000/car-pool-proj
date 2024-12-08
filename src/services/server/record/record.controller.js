@@ -28,23 +28,27 @@ export async function addRecord(req) {
     }
 }
 
-export async function updateRecord(req, res) {
+export async function updateRecord(req) {
     try {
-        const record = req.json()
-        // const record = req.body
-        const updatedrecord = await recordService.update(record)
-        res.json(updatedrecord)
+        const record = await req.json()
+        const updatedRecord = await recordService.update(record)
+        return updatedRecord
     } catch (error) {
-        res.status(500).send({ error: 'Failed to update record' })
+        console.log(error)
+        
     }
 }
 
-export async function removeRecord(req, res) {
+
+export async function removeRecord(req) {
     try {
-        const { id } = req.params
-        const removedrecord = await recordService.remove(id)
-        res.send(removedrecord)
+        const { searchParams } = new URL(req.url)
+        const id = searchParams.get('id')
+        const removedRecord = await recordService.remove(id)
+        return removedRecord
     } catch (error) {
-        res.status(500).send({ error: 'Failed to remove record' })
+        console.log(error)
+        
+        // res.status(500).send({ error: 'Failed to remove record' })
     }
 }

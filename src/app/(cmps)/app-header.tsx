@@ -6,6 +6,8 @@ import { usePathname, useRouter } from 'next/navigation'
 import { User } from '@/interfaces/user'
 import { httpService } from '@/services/http.service'
 
+// TODO: ADD MY ACCOUNT UNDER USER SECTION
+
 
 const AppHeader = ({ user }: { user: User }) => {
 
@@ -17,8 +19,6 @@ const AppHeader = ({ user }: { user: User }) => {
         router.push('/')
         router.refresh()
     }
-
-
 
 
     return <header className='app-header'>
@@ -43,11 +43,6 @@ const AppHeader = ({ user }: { user: User }) => {
                                 </span>
                             </>
                         }
-                        <span className={`nav-link ${pathname === '/myaccount' ? 'active' : ''} `}>
-                            <Link href="/myaccount">
-                                החשבון שלי
-                            </Link>
-                        </span>
                         <span className={`nav-link ${pathname === '/myrides' ? 'active' : ''} `}>
                             <Link href="/myrides">
                                 הנסיעות שלי

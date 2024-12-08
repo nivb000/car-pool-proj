@@ -1,26 +1,23 @@
 "use client"
-import { useState, useEffect} from "react"
+import { useState, useEffect } from "react"
 import { Button } from "@mui/material"
-import Image from "next/image"
-import carOrder from "@/assets/imgs/order-car.png"
 import { useSearchParams, useRouter } from 'next/navigation'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker'
-import dayjs from 'dayjs'
-import useSWR from 'swr'
-import {fetcher} from '@/lib/fetcher'
 import { httpService } from "@/services/http.service"
-import Snackbar, { SnackbarCloseReason, SnackbarOrigin  } from '@mui/material/Snackbar'
-import Alert from '@mui/material/Alert'
 import { Loader } from "@/app/(cmps)/loader"
+import { AlertBar } from "@/app/(cmps)/alert-bar"
+import { SnackbarOrigin } from '@mui/material/Snackbar'
+import { fetcher } from '@/lib/fetcher'
+import useSWR from 'swr'
+import dayjs from 'dayjs'
+import Image from "next/image"
+import carOrder from "@/assets/imgs/order-car.png"
 
 interface State extends SnackbarOrigin {
-    open: boolean
-}
-
-
-//TODO: SNACKBAR
+    open: boolean;
+  }
 
 const RecordEdit = () => {
 
@@ -28,22 +25,12 @@ const RecordEdit = () => {
     const searchParams = useSearchParams()
     const { data: user, error, isLoading } = useSWR('/api/auth', fetcher)
     
-    const [snackBarMsg, setSnackBarMsg] = useState("")
-    const [snackBarState, setSnackBarState] = useState<State>({
+    const [alertMsg, setAlertMsg] = useState("")
+    const [alertState, setAlertState] = useState<State>({
         open: false,
         vertical: 'top',
         horizontal: 'center',
     })
-    const { vertical, horizontal, open } = snackBarState
-    
-    const handleClose = (event?: React.SyntheticEvent | Event,reason?: SnackbarCloseReason) => {
-      if (reason === 'clickaway') {
-        return;
-      }
-  
-      setSnackBarState({ ...snackBarState, open: false })
-    }
-    
     
 
     const [record, setRecord] = useState({
@@ -84,11 +71,15 @@ const RecordEdit = () => {
         setRecord(prevState => ({ ...prevState, [name]: value }))
     }
 
+    const showSnackBar = (id: string) => {
+        setAlertMsg(`נסיעה ${id} נוספה בהצלחה`)
+        setAlertState(prevState => ({ ...prevState, open: true }))
+    }
+
     const handleSubmit = async (ev: React.FormEvent) => {
         ev.preventDefault()
         const {newRecord} = await httpService.post('record', record)
-        setSnackBarMsg(`נסיעה ${newRecord.insertedId} נוספה בהצלחה`)
-        setSnackBarState({ ...snackBarState, open: true })
+        showSnackBar(newRecord.insertedId)
         setTimeout(() => router.push('/record'), 1500)
     } 
 
@@ -147,11 +138,7 @@ const RecordEdit = () => {
             </div>
         </section>
 
-    <Snackbar open={open} autoHideDuration={3000} onClose={handleClose} anchorOrigin={{vertical , horizontal}} key={"top" + "center"}>
-        <Alert onClose={handleClose} severity="success" variant="filled" sx={{ width: '100%' }}>
-          {snackBarMsg}
-        </Alert>
-    </Snackbar>
+        <AlertBar msg={alertMsg} snackBarState={alertState} />
 
     </section>
 }

@@ -1,56 +1,54 @@
 "use client"
-import { useState} from "react"
+import { useState, useEffect } from "react"
 import { Button } from "@mui/material"
-import Image from "next/image"
-import carOrder from "@/assets/imgs/order-car.png"
-import { useSearchParams } from 'next/navigation'
+import { useRouter } from 'next/navigation'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker'
-import dayjs from 'dayjs'
-import useSWR from 'swr'
-import {fetcher} from '@/lib/fetcher'
 import { httpService } from "@/services/http.service"
-import Snackbar, { SnackbarCloseReason } from '@mui/material/Snackbar'
-import Alert from '@mui/material/Alert'
+import { Loader } from "@/app/(cmps)/loader"
+import { AlertBar } from "@/app/(cmps)/alert-bar"
+import { SnackbarOrigin } from '@mui/material/Snackbar'
+import { fetcher } from '@/lib/fetcher'
+import useSWR from 'swr'
+import dayjs from 'dayjs'
+import Image from "next/image"
+import carOrder from "@/assets/imgs/order-car.png"
 import { Record } from "@/interfaces/record"
-import { getRecordById } from "@/services/server/record/record.controller"
+
+interface State extends SnackbarOrigin {
+    open: boolean;
+}
+
+const RecordEdit = ({ params }: { params: { id: string } }) => {
+
+    const router = useRouter()
+    const { data, error: recordError, isLoading: recordIsLoading } = useSWR(`/api/record?id=${params.id}`, fetcher)
+    const { data: user, error: userError, isLoading: userIsLoading } = useSWR('/api/auth', fetcher)
 
 
-//TODO: Fix record received and to edit
-//TODO: SNACKBAR
+
+    useEffect(() => {
+        if (data) {
+            const recordToUpdate = data.record
+            recordToUpdate.startDate = dayjs(data.record.startDate)
+            recordToUpdate.endDate = dayjs(data.record.endDate)
+            setRecord(recordToUpdate)
+        }
+    }, [data])
 
 
-const RecordEdit = async({ params }: { params: { id: string } }) => {
+    const [alertMsg, setAlertMsg] = useState("")
+    const [alertState, setAlertState] = useState<State>({
+        open: false,
+        vertical: 'top',
+        horizontal: 'center',
+    })
 
-    const record: Record = await getRecordById(params.id) 
-    const searchParams = useSearchParams()
-    const { data: user, error, isLoading } = useSWR('/api/auth', fetcher)
-    const [openAlert, setOpenAlert] = useState(false)
-    const handleClick = () => {
-        setOpenAlert(true)
-    };
 
-    // useEffect(() => {
-    //     if (data) setToy(data)
-    // }, [data])
-  
-    const handleClose = (
-      event?: React.SyntheticEvent | Event,
-      reason?: SnackbarCloseReason,
-    ) => {
-      if (reason === 'clickaway') {
-        return;
-      }
-  
-      setOpenAlert(false)
-    };
-    
-    
-
-    const [record, setRecord] = useState({
-        driver:{...user},
-        startKm: Number(searchParams.get('lastRideKm')) || 0,
+    const [record, setRecord] = useState<Record>({
+        driver: { ...user },
+        startKm: 0,
         driveEndKm: 0,
         startDate: dayjs(),
         endDate: dayjs(),
@@ -60,8 +58,9 @@ const RecordEdit = async({ params }: { params: { id: string } }) => {
         status: 'completed'
     })
 
+
     const handleChange = ({ target }: React.ChangeEvent<HTMLInputElement>) => {
-        
+
         const name = target.name
         let value: any
         switch (name) {
@@ -76,11 +75,19 @@ const RecordEdit = async({ params }: { params: { id: string } }) => {
         setRecord(prevState => ({ ...prevState, [name]: value }))
     }
 
+const showSnackBar = (id: string) => {
+        setAlertMsg(`נסיעה ${id} עודכנה בהצלחה`)
+        setAlertState(prevState => ({ ...prevState, open: true }))
+    }
+
     const handleSubmit = async (ev: React.FormEvent) => {
-        ev.preventDefault()
-        const newRecord = await httpService.post('record', record)
-        setOpenAlert(true)
-    } 
+        ev.preventDefault()        
+        await httpService.put('record', record)
+        if(record._id) showSnackBar(record._id)
+        setTimeout(() => router.push('/record'), 1500)
+    }
+
+    if (recordIsLoading || userIsLoading) return <Loader />
 
     return <section className="flex space-evenly record-edit">
         <section className="form-container flex col align-center">
@@ -89,11 +96,11 @@ const RecordEdit = async({ params }: { params: { id: string } }) => {
                 <form className="flex col space-between" autoComplete="off" onSubmit={handleSubmit}>
                     <div className="input-field">
                         <label htmlFor="startingPoint"></label>
-                        <input type="text" name="startingPoint" id="startingPoint" placeholder="נקודת מוצא" onChange={handleChange} />
+                        <input type="text" name="startingPoint" value={record.startingPoint} id="startingPoint" placeholder="נקודת מוצא" onChange={handleChange} />
                     </div>
                     <div className="input-field">
                         <label htmlFor="destinationPoint"></label>
-                        <input type="text" name="destinationPoint" id="destinationPoint" placeholder="נקודת יעד" onChange={handleChange} />
+                        <input type="text" name="destinationPoint" value={record.destinationPoint} id="destinationPoint" placeholder="נקודת יעד" onChange={handleChange} />
                     </div>
                     <div className="input-field">
                         <label htmlFor="startKm"></label>
@@ -101,29 +108,29 @@ const RecordEdit = async({ params }: { params: { id: string } }) => {
                     </div>
                     <div className="input-field">
                         <label htmlFor="driveEndKm"></label>
-                        <input type="number" name="driveEndKm" id="driveEndKm" placeholder="קילומטר סוף נסיעה" onChange={handleChange} />
+                        <input type="number" name="driveEndKm" value={record.driveEndKm} id="driveEndKm" placeholder="קילומטר סוף נסיעה" onChange={handleChange} />
                     </div>
                     <div className="datepicker-field" dir="ltr">
                         <LocalizationProvider dateAdapter={AdapterDayjs}>
-                            <DateTimePicker 
-                            label="תאריך התחלה"
-                            value={record.startDate}
-                            onChange={(newValue) => newValue ? setRecord(prevState => ({ ...prevState, startDate: newValue })) : null}
-                            ampm={false} />
+                            <DateTimePicker
+                                label="תאריך התחלה"
+                                value={record.startDate}
+                                onChange={(newValue) => newValue ? setRecord(prevState => ({ ...prevState, startDate: newValue })) : null}
+                                ampm={false} />
                         </LocalizationProvider>
                     </div>
                     <div className="datepicker-field" dir="ltr">
                         <LocalizationProvider dateAdapter={AdapterDayjs}>
-                            <DateTimePicker 
-                            label="תאריך סיום"
-                            value={record.endDate}
-                            onChange={(newValue) => newValue ? setRecord(prevState => ({ ...prevState, endDate: newValue })) : null}
-                            ampm={false} />
+                            <DateTimePicker
+                                label="תאריך סיום"
+                                value={record.endDate}
+                                onChange={(newValue) => newValue ? setRecord(prevState => ({ ...prevState, endDate: newValue })) : null}
+                                ampm={false} />
                         </LocalizationProvider>
                     </div>
                     <div className="input-field">
                         <Button variant="contained" color="success" fullWidth type="submit">
-                            הוסף נסיעה
+                            עדכן נסיעה
                         </Button>
                     </div>
                 </form>
@@ -131,19 +138,11 @@ const RecordEdit = async({ params }: { params: { id: string } }) => {
         </section>
         <section className="left-section">
             <div className="image-container">
-                <Image src={carOrder} width={400} height={400} alt='blue-car-image' />
+                <Image src={carOrder} width={400} height={400} alt='blue-car-image' priority={false} />
             </div>
         </section>
 
-        <Snackbar open={openAlert} autoHideDuration={3000} onClose={handleClose}>
-        <Alert
-          onClose={handleClose}
-          severity="success"
-          variant="filled"
-          sx={{ width: '100%' }}>
-          נסיעה נוספה בהצלחה
-        </Alert>
-      </Snackbar>
+        <AlertBar msg={alertMsg} snackBarState={alertState} />
 
     </section>
 }

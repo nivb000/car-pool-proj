@@ -5,9 +5,6 @@ import { getUser } from '@/services/server/auth/session.service'
 const Home = async () => {
 
   //SORT TABLE BY LAST ONE
-  //Add admin dashboard
-  
-  
   //Add car object
   // car licenseNumber:
   // car manufacturer
@@ -18,6 +15,9 @@ const Home = async () => {
   // Car keysAssignedTo: {User}...(Last driver)
 
   // Add user manager Id
+
+  //Try combine update and add to one cmp
+  //Make sure you cant edit or add if not admin and not logged in
 
 
   const user = await getUser() || null

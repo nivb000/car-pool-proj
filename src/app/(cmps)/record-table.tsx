@@ -13,14 +13,33 @@ import { RecordModal } from "./record-modal"
 import Link from "next/link"
 import useSWR from 'swr'
 import { fetcher } from '@/lib/fetcher'
+import { httpService } from "@/services/http.service"
+import { SnackbarOrigin } from '@mui/material/Snackbar'
+import { AlertBar } from "./alert-bar"
+import { RiDeleteBin6Line, RiEdit2Line  } from "react-icons/ri"
 
-export const RecordTable = ({ records }: { records: Record[] }) => {
+
+// TODO: Change the table from portable to avoid key error
+
+interface State extends SnackbarOrigin {
+    open: boolean;
+}
+
+export const RecordTable = ({ initialRecords }: { initialRecords: Record[] }) => {
 
     const { data: user, error, isLoading } = useSWR('/api/auth', fetcher)
+    const [records, setRecords] = useState(initialRecords)
     const [search, setSearch] = useState("")
     const [openModal, setOpenModal] = useState(false)
     const handleOpen = () => setOpenModal(true)
     const handleClose = () => setOpenModal(false)
+    const [alertMsg, setAlertMsg] = useState("")
+    const [alertState, setAlertState] = useState<State>({
+        open: false,
+        vertical: 'top',
+        horizontal: 'center',
+    })
+    
 
 
     const theme = useTheme([
@@ -78,8 +97,8 @@ export const RecordTable = ({ records }: { records: Record[] }) => {
             record.destinationPoint.toLowerCase().includes(search.toLowerCase())
         ),
     }
-    
-    
+
+
 
     const sort = useSort(
         records,
@@ -115,13 +134,22 @@ export const RecordTable = ({ records }: { records: Record[] }) => {
         COLUMNS.unshift(
             {
                 label: "פעולות", renderCell: (record: Record) => (
-                    <div>
-                        <button>מחק</button>
-                        <button>שנה</button>
+                    <div className="admin-actions">
+                        <RiDeleteBin6Line onClick={() => handleDelete(record._id)} />
+                        <Link href={`/record/edit/${record._id}`}>
+                            <RiEdit2Line />
+                        </Link>
                     </div>
                 ), resize: true
             },
         )
+    }
+
+    const handleDelete = async (recordId) => {
+        setRecords(records.filter(rec => rec._id != recordId))
+        const deletedRecord = await httpService.delete(`record?id=${recordId}`)       
+        setAlertMsg(`נסיעה נמחקה בהצלחה`)
+        setAlertState(prevState => ({ ...prevState, open: true }))
     }
 
 
@@ -135,6 +163,7 @@ export const RecordTable = ({ records }: { records: Record[] }) => {
             </div>
             <CompactTable columns={COLUMNS} data={recordsToRender} theme={theme} layout={{ fixedHeader: true }} sort={sort} pagination={pagination} />
             <Pagination count={pagination.state.getTotalPages(recordsToRender.nodes)} color="primary" onChange={handlePageChange} style={{ alignSelf: 'center' }} />
+            <AlertBar msg={alertMsg} snackBarState={alertState} />
         </>
     )
 }

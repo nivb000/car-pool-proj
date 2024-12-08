@@ -16,5 +16,5 @@ export interface Record {
     startingPoint: string;
     car: number,
     status: string,
-    createdAt: Double
+    createdAt?: Double
   }

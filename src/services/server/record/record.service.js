@@ -51,7 +51,9 @@ async function add(record) {
 
 async function update(record) {
     try {
-        let id = ObjectId(record._id)
+        console.log("received", record)
+        
+        let id = ObjectId.createFromHexString(record._id)
         delete record._id
         const collection = await dbService.getCollection('record')
         await collection.updateOne({ _id: id }, { $set: { ...record } })
