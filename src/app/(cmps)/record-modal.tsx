@@ -50,7 +50,7 @@ export const RecordModal = ({ record }: { record: Record }) => {
         <Dialog open={open} TransitionComponent={Transition} keepMounted onClose={handleClose}>
             <section className='flex col modal-main-wrapper'>
 
-                <h3>{`${record._id} נסיעה מספר`}</h3>
+                <h3>{`${record._id} :מזהה נסיעה`}</h3>
                 <div className='modal-main-container'>
                     <ul>
                         <li>

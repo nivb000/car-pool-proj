@@ -16,7 +16,7 @@ import { fetcher } from '@/lib/fetcher'
 import { httpService } from "@/services/http.service"
 import { SnackbarOrigin } from '@mui/material/Snackbar'
 import { AlertBar } from "./alert-bar"
-import { RiDeleteBin6Line, RiEdit2Line  } from "react-icons/ri"
+import { MdDeleteOutline, MdEdit } from "react-icons/md"
 
 
 // TODO: Change the table from portable to avoid key error
@@ -39,7 +39,7 @@ export const RecordTable = ({ initialRecords }: { initialRecords: Record[] }) =>
         vertical: 'top',
         horizontal: 'center',
     })
-    
+
 
 
     const theme = useTheme([
@@ -49,7 +49,7 @@ export const RecordTable = ({ initialRecords }: { initialRecords: Record[] }) =>
                 margin-bottom: 1rem;
             `,
             HeaderRow: `
-              background-color: #0062ff;
+              background-color: #2A9FFF;
             `,
             Row: `
               &:nth-of-type(odd) {
@@ -82,7 +82,7 @@ export const RecordTable = ({ initialRecords }: { initialRecords: Record[] }) =>
     const pagination = usePagination(records, {
         state: {
             page: 0,
-            size: 5,
+            size: 7,
         }
     })
 
@@ -134,10 +134,14 @@ export const RecordTable = ({ initialRecords }: { initialRecords: Record[] }) =>
         COLUMNS.unshift(
             {
                 label: "פעולות", renderCell: (record: Record) => (
-                    <div className="admin-actions">
-                        <RiDeleteBin6Line onClick={() => handleDelete(record._id)} />
+                    <div className="flex space-evenly admin-actions">
+                        <div className="icon-wrapper" onClick={() => handleDelete(record._id)}>
+                            <MdDeleteOutline color="white" />
+                        </div>
                         <Link href={`/record/edit/${record._id}`}>
-                            <RiEdit2Line />
+                            <div className="icon-wrapper">
+                                <MdEdit color="white" />
+                            </div>
                         </Link>
                     </div>
                 ), resize: true
@@ -146,10 +150,13 @@ export const RecordTable = ({ initialRecords }: { initialRecords: Record[] }) =>
     }
 
     const handleDelete = async (recordId) => {
-        setRecords(records.filter(rec => rec._id != recordId))
-        const deletedRecord = await httpService.delete(`record?id=${recordId}`)       
-        setAlertMsg(`נסיעה נמחקה בהצלחה`)
-        setAlertState(prevState => ({ ...prevState, open: true }))
+        const verifyAction = confirm("האם אתה בטוח רוצה למחוק את הרשומה ? ")
+        if(verifyAction){
+            setRecords(records.filter(rec => rec._id != recordId))
+            const deletedRecord = await httpService.delete(`record?id=${recordId}`)
+            setAlertMsg(`נסיעה נמחקה בהצלחה`)
+            setAlertState(prevState => ({ ...prevState, open: true }))
+        }
     }
 
 
@@ -157,7 +164,7 @@ export const RecordTable = ({ initialRecords }: { initialRecords: Record[] }) =>
         <>
             <div className="flex space-between table-top-toolbar">
                 <Link href={`/record/edit?lastRideKm=${records.length > 0 ? records[records.length - 1].driveEndKm : 0}`}>
-                    <Button variant="contained" color="warning">הוסף נסיעה חדשה</Button>
+                    <Button variant="contained" color="success">הוסף נסיעה חדשה</Button>
                 </Link>
                 <input id="search" type="search" value={search} onChange={handleSearch} placeholder="חפש" />
             </div>

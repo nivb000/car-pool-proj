@@ -84,7 +84,10 @@ const showSnackBar = (id: string) => {
         ev.preventDefault()        
         await httpService.put('record', record)
         if(record._id) showSnackBar(record._id)
-        setTimeout(() => router.push('/record'), 1500)
+        setTimeout(() => {
+            router.push('/record')
+            router.refresh()
+        }, 1500)
     }
 
     if (recordIsLoading || userIsLoading) return <Loader />

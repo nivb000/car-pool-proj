@@ -48,6 +48,7 @@ export async function createSession(userId: string) {
 export async function verifySession() {
     const cookie = cookies().get('session')?.value;
     const session = await decrypt(cookie);
+    
 
     if (!session?.userId) {
         return { isAuth: false }
@@ -55,6 +56,20 @@ export async function verifySession() {
     
 
     return { isAuth: true, userId: session.userId }
+}
+
+export async function verifyAdmin() {
+    const cookie = cookies().get('session')?.value
+    const session = await decrypt(cookie)
+    if(!session?.userId){
+        return { isAuth: false, isAdmin: false }
+    }
+    const user = await getById(session.userId)
+
+    if (!user.isAdmin) {
+        return { isAuth: true, isAdmin: false }
+    }
+    return { isAuth: true, isAdmin: true, userId: session.userId }
 }
 
 export async function updateSession() {

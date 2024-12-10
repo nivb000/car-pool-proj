@@ -48,7 +48,6 @@ export async function login(state: FormState, formData: FormData) {
 //   return userService.add({ username, password: hash, fullname })
 // }
 
-
 export async function logout() {
   deleteSession()
 }

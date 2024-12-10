@@ -80,7 +80,10 @@ const RecordEdit = () => {
         ev.preventDefault()
         const {newRecord} = await httpService.post('record', record)
         showSnackBar(newRecord.insertedId)
-        setTimeout(() => router.push('/record'), 1500)
+        setTimeout(() => {
+            router.push('/record')
+            router.refresh()
+        }, 1500)
     } 
 
     if (isLoading) return <Loader />

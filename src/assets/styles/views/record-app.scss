@@ -38,6 +38,17 @@
                     }
                 }
             }
+            .admin-actions{
+                .icon-wrapper{
+                    padding: 0.5rem;
+                    border-radius: 100%;
+                    background: #076DFF;
+                    cursor: pointer;
+                    > :only-child{
+                        transform: translateY(10%);
+                    }
+                }
+            }
         }
     }
 }
