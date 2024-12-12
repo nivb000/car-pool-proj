@@ -1,4 +1,4 @@
-import { getRecords } from "@/services/server/record/record.controller"
+import { query as getRecords } from "@/services/server/record/record.service"
 import { RecordTable } from '../(cmps)/record-table'
 import Image from 'next/image'
 import car from '../../assets/imgs/car.jpg'

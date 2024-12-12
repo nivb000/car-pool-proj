@@ -95,7 +95,7 @@ export const RecordTable = ({ initialRecords }: { initialRecords: Record[] }) =>
             record.startingPoint.toLowerCase().includes(search.toLowerCase()) ||
             record.driver.name.toLowerCase().includes(search.toLowerCase()) ||
             record.destinationPoint.toLowerCase().includes(search.toLowerCase())
-        ),
+        ).reverse(),
     }
 
 

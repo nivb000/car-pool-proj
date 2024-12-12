@@ -1,8 +1,33 @@
 .car-app{
-    margin-block-start: 5rem;
+    direction: rtl;
     .top-section{
+        margin: 3rem 0;
         p{
             font-size: 2rem;
+        }
+    }
+    .car-list{
+        gap: 20px;
+        .car-preview{
+            box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+            border-radius: 5px;
+            padding: 0.5rem;
+            .car-preview-img{
+                width: 250px;
+                img{
+                    width: 100%;
+                }
+            }
+            .car-preview-text{
+                margin-inline-start: 3rem;
+                h1{
+                    font-size: 1.5rem;
+                }
+                p{
+                    font-size: 1.1rem;
+                    margin: 0.5rem 0;
+                }
+            }
         }
     }
 }

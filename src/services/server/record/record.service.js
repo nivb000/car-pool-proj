@@ -1,16 +1,7 @@
 import dbService from '../db.service'
 import { ObjectId } from 'mongodb'
 
-module.exports = {
-    query,
-    getById,
-    remove,
-    add,
-    update
-}
-// queryUserrecords
-
-async function query(filterBy = {}) {
+export async function query(filterBy = {}) {
     try {
         const collection = await dbService.getCollection('record')
         let records = await collection.find().toArray()
@@ -19,7 +10,7 @@ async function query(filterBy = {}) {
         throw error
     }
 }
-async function getById(id) {
+export async function getById(id) {
     try {
         const collection = await dbService.getCollection('record')
         const record = await collection.findOne({ _id: ObjectId.createFromHexString(id) })
@@ -28,7 +19,7 @@ async function getById(id) {
         throw error
     }
 }
-async function remove(id) {
+export async function remove(id) {
     try {
         const collection = await dbService.getCollection('record')
         await collection.deleteOne({ _id: ObjectId.createFromHexString(id) })
@@ -38,9 +29,9 @@ async function remove(id) {
     }
 }
 
-async function add(record) {
+export async function add(record) {
     try {
-        record.createdAt = Date.now()
+        record.updatedAt = Date.now()
         const collection = await dbService.getCollection('record')
         const addedRecord = await collection.insertOne(record)
         return addedRecord
@@ -49,10 +40,9 @@ async function add(record) {
     }
 }
 
-async function update(record) {
+export async function update(record) {
     try {
-        console.log("received", record)
-        
+        record.updatedAt = Date.now()
         let id = ObjectId.createFromHexString(record._id)
         delete record._id
         const collection = await dbService.getCollection('record')

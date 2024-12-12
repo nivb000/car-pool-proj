@@ -4,18 +4,12 @@ import { getUser } from '@/services/server/auth/session.service'
 
 const Home = async () => {
 
-  //SORT TABLE BY LAST ONE
-  //Add car object
-  // car licenseNumber:
-  // car manufacturer
-  // car Model
-  // car Year
-  // Car currentKM
-  // car owner userId
-  // Car keysAssignedTo: {User}...(Last driver)
-
+  //TODO: CRUD ON CARS
+  //CAR DETAILS PAGE (SHOW ORDERS AND RECORDS FROM CAR)
+  //ORDERS full flow
   // Add user manager Id
-
+  //Aggregation show only records from relevent car
+  //ADD user managment
   //Try combine update and add to one cmp
   //Make sure you cant edit or add if not admin and not logged in
 

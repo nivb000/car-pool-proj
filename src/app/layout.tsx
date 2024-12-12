@@ -1,6 +1,5 @@
 import type { Metadata } from "next"
 import { Inter } from "next/font/google"
-import { UserProvider } from '@auth0/nextjs-auth0/client'
 import "../assets/styles/main.scss"
 import AppHeader from "./(cmps)/app-header"
 import { getUser } from '@/services/server/auth/session.service'
@@ -18,14 +17,12 @@ export default async function RootLayout({ children, }: Readonly<{ children: Rea
 
   return (
     <html lang="en">
-      <UserProvider>
         <body className={inter.className} suppressHydrationWarning={true}>
           <AppHeader user={user} />
           <main>
             {children}
           </main>
         </body>
-      </UserProvider>
     </html>
   )
 }

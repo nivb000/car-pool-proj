@@ -1,5 +1,4 @@
-import { Dayjs } from "dayjs";
-import { Double } from "mongodb";
+import { Dayjs } from "dayjs"
 
 export interface Record {
     _id?: string;
@@ -16,5 +15,5 @@ export interface Record {
     startingPoint: string;
     car: number,
     status: string,
-    createdAt?: Double
+    updatedAt?: number
   }

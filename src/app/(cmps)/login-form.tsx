@@ -10,7 +10,7 @@ const LoginForm = () => {
     <input type="email" name="email" />
     <input type="password" name="password" />
     <button aria-disabled={pending} type="submit" className="submit-btn">
-        {pending ? 'Logged in...' : 'Log in'}
+      {pending ? 'Logged in...' : 'Log in'}
     </button>
     </form>
 }

@@ -1,4 +1,4 @@
-import { getRecords, getRecordById, addRecord, removeRecord, updateRecord } from "@/services/server/record/record.controller"
+import { query, getById, remove, update, add } from "@/services/server/record/record.service"
 
 export async function GET(req: Request) {
     
@@ -7,14 +7,14 @@ export async function GET(req: Request) {
     
     if (id) {
         try {
-            let record = await getRecordById(id)
+            let record = await getById(id)
             return Response.json({ record })
         } catch (error) {
             return Response.json({ status: 404, statusText: "Cannot get record" })
         }
     } else {
         try {
-            const records = await getRecords()
+            const records = await query()
             return Response.json({ records })
         } catch (error) {
             return Response.json({ status: 404, statusText: "Cannot get records" })
@@ -24,18 +24,23 @@ export async function GET(req: Request) {
 
 
 export async function POST(req: Request) {
-    const newRecord = await addRecord(req)
-    return Response.json({ newRecord })
+    const newRecord = await req.json()
+    const res = await add(newRecord)
+    return Response.json({ res })
 }
 
 
 export async function PUT(req: Request) {
-    const updatedRecord = await updateRecord(req)
-    return Response.json({ updatedRecord })
+    const updatedRecord = await req.json()
+    const res = await update(updatedRecord)
+    return Response.json({ res })
 }
 
 export async function DELETE(req: Request) {
-    const deletedRecord = await removeRecord(req)
+    const { searchParams } = new URL(req.url)
+    const id = searchParams.get('id')
+
+    const deletedRecord = await remove(id)
 
     return Response.json({ "id": deletedRecord })
 }

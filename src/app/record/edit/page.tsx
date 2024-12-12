@@ -78,8 +78,9 @@ const RecordEdit = () => {
 
     const handleSubmit = async (ev: React.FormEvent) => {
         ev.preventDefault()
-        const {newRecord} = await httpService.post('record', record)
-        showSnackBar(newRecord.insertedId)
+        const {res} = await httpService.post('record', record)
+        
+        showSnackBar(res.insertedId)
         setTimeout(() => {
             router.push('/record')
             router.refresh()
