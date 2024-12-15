@@ -18,7 +18,7 @@ const Home = async () => {
 
   {user && redirect('record')}
 
-  return <section className="home-page">
+  return <section className="flex justify-center align-center home-page">
     <LoginForm />
   </section>
 }

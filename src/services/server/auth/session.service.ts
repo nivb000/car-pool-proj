@@ -91,15 +91,15 @@ export async function updateSession() {
 }
 
 export const getUser = cache(async () => {
-    const session = await verifySession();
-    if (!session) return null;
+    const session = await verifySession()
+    if (!session) return null
+    
 
     try {
         const user = await getById(session.userId)
         user._id = user._id.toString()
         return user
     } catch (error) {
-        console.log('Failed to fetch user')
         return null
     }
 })

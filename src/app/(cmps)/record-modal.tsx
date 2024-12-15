@@ -1,15 +1,10 @@
-import { useState, forwardRef } from 'react';
-import Button from '@mui/material/Button';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
-import DialogTitle from '@mui/material/DialogTitle';
-import Slide from '@mui/material/Slide';
-import { TransitionProps } from '@mui/material/transitions';
-import { Record } from '@/interfaces/record';
-import { Typography } from '@mui/material';
-import dayjs from 'dayjs';
+import { useState, forwardRef } from 'react'
+import Dialog from '@mui/material/Dialog'
+import Slide from '@mui/material/Slide'
+import { TransitionProps } from '@mui/material/transitions'
+import { Record } from '@/interfaces/record'
+import { Typography } from '@mui/material'
+import dayjs from 'dayjs'
 
 const Transition = forwardRef(function Transition(
     props: TransitionProps & {

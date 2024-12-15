@@ -1,8 +1,7 @@
 "use server"
 
 import { getByEmail } from '../user/user.service'
-import { LoginFormSchema } from '@/lib/definitions'
-import { FormState } from '@/interfaces/formState'
+import { LoginFormSchema, FormState } from '@/lib/definitions'
 import { createSession, deleteSession } from './session.service'
 import bcrypt from 'bcrypt'
 

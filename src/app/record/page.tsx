@@ -1,20 +1,27 @@
-import { query as getRecords } from "@/services/server/record/record.service"
-import { RecordTable } from '../(cmps)/record-table'
+import { query as getRecords, remove } from "@/services/server/record/record.service"
+import { RecordTable } from "../(cmps)/record-table"
 import Image from 'next/image'
 import car from '../../assets/imgs/car.jpg'
 import { Record } from "@/interfaces/record"
-import { verifySession } from "@/services/server/auth/session.service"
+import { getUser, verifySession } from "@/services/server/auth/session.service"
+import { redirect } from "next/navigation"
 
 const RecordApp = async () => {
 
   const session = await verifySession()
   if (!session.isAuth) {
-    return null;
+    redirect("/")
   }
 
+  const user = await getUser()
 
   let data: Record[] = await getRecords()
   data = JSON.parse(JSON.stringify(data))
+
+  const handleDeleteRecord = async (recordId: string) => {
+    "use server"
+    await remove(recordId) 
+  }
 
 
 
@@ -29,7 +36,7 @@ const RecordApp = async () => {
         <Image src={car} width={300} height={300} alt='blue-car-image' />
       </div>
       <div className='flex col right'>
-        <RecordTable initialRecords={data} />
+        <RecordTable user={user} initialRecords={data} handleDeleteRecord={handleDeleteRecord} />
       </div>
     </section>
   </section>

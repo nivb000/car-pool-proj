@@ -1,5 +1,5 @@
 import { z } from 'zod'
- 
+
 export const SignupFormSchema = z.object({
   name: z
     .string()
@@ -13,9 +13,20 @@ export const SignupFormSchema = z.object({
 })
 
 export const LoginFormSchema = z.object({
-  email: z.string().email({ message: 'Please enter a valid email.' }).trim(),
+  email: z.string().email({ message: 'מייל לא תקין.' }).trim(),
   password: z
     .string()
-    .min(5, { message: 'Be at least 5 characters long' })
+    .min(5, { message: 'הסיסמה לא תקינה' })
     .trim(),
 })
+
+export type FormState =
+  | {
+    errors?: {
+      name?: string[]
+      email?: string[]
+      password?: string[]
+    }
+    message?: string
+  }
+  | undefined

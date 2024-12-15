@@ -8,24 +8,34 @@
     }
     .car-list{
         gap: 20px;
-        .car-preview{
-            box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
-            border-radius: 5px;
-            padding: 0.5rem;
-            .car-preview-img{
-                width: 250px;
-                img{
-                    width: 100%;
+        a{
+            text-decoration: none;
+            color: black;
+            .car-preview{
+                box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+                &:hover{
+                    transform: scale(1.01);
+                    transition: all .5s;
                 }
-            }
-            .car-preview-text{
-                margin-inline-start: 3rem;
-                h1{
-                    font-size: 1.5rem;
+                border-radius: 5px;
+                padding: 0.5rem;
+                .car-preview-img{
+                    width: 250px;
+                    img{
+                        width: 100%;
+                    }
                 }
-                p{
-                    font-size: 1.1rem;
-                    margin: 0.5rem 0;
+                .car-preview-text{
+                    margin-inline-start: 3rem;
+                    h1{
+                        font-size: 1.5rem;
+                        text-decoration: none;
+                        color: black;
+                    }
+                    p{
+                        font-size: 1.1rem;
+                        margin: 0.5rem 0;
+                    }
                 }
             }
         }

@@ -35,12 +35,3 @@ export async function PUT(req: Request) {
     const res = await update(updatedRecord)
     return Response.json({ res })
 }
-
-export async function DELETE(req: Request) {
-    const { searchParams } = new URL(req.url)
-    const id = searchParams.get('id')
-
-    const deletedRecord = await remove(id)
-
-    return Response.json({ "id": deletedRecord })
-}
