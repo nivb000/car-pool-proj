@@ -34,22 +34,6 @@ export async function queryByOwner(managerId: string | null) {
         throw error
     }
 }
-// export async function queryByOwner(managerId: string | null) {
-//     try {
-//         const collection = await dbService.getCollection('car')
-//         let car = await collection.findOne({ "owner._id": managerId })
-//         delete car.currentKM
-//         delete car._id
-//         delete car.manufacturer
-//         delete car.model
-//         delete car.year
-//         delete car.updatedAt
-//         delete car.owner.name
-//         return car
-//     } catch (error) {
-//         throw error
-//     }
-// }
 export async function getById(id: string) {
     try {
         const collection = await dbService.getCollection('car')
