@@ -120,7 +120,7 @@ export const RecordTable = ({ user, initialRecords, handleDeleteRecord }: { user
     return (
         <>
             <div className="flex space-between table-top-toolbar">
-                <Link href={`/record/edit?lastRideKm=${records.length > 0 ? records[records.length - 1].driveEndKm : 0}`}>
+                <Link href={`/record/edit?lastRideKm=${records.length > 0 ? records[records.length - 1].driveEndKm : 0}&userName=${user.name}&userId=${user._id}&managerId=${user.managerId}`}>
                     <Button variant="contained" color="success">הוסף נסיעה חדשה</Button>
                 </Link>
                 <input id="search" type="search" value={search} onChange={handleSearch} placeholder="חפש" />

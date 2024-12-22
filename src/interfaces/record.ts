@@ -4,7 +4,6 @@ export interface Record {
     _id?: string;
     driver: {
       _id: string;
-      email: string;
       name: string;
     };
     startKm: number;
@@ -13,7 +12,10 @@ export interface Record {
     endDate: Dayjs  | null;
     destinationPoint: string;
     startingPoint: string;
-    car: number,
+    car: {
+      ownerId: string;
+      licenseNumber: number;
+    };
     status: string,
     updatedAt?: number
   }

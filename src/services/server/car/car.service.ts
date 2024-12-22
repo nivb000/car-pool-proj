@@ -11,6 +11,45 @@ export async function query(filterBy = {}) {
         throw error
     }
 }
+export async function queryByOwner(managerId: string | null) {
+    try {
+        const collection = await dbService.getCollection('car')
+        let cars = await collection.aggregate([
+            {
+                $match: { "owner._id": managerId } // Filter by managerId
+            },
+            {
+                $project: {
+                    licenseNumber: 1, // Include licenseNumber
+                    ownerId: "$owner._id", // Rename owner._id to ownerId
+                    _id: 0, // Exclude _id field
+                }
+            }
+        ]).toArray()
+        
+        return cars
+    } catch (error) {
+        console.log(error)
+        
+        throw error
+    }
+}
+// export async function queryByOwner(managerId: string | null) {
+//     try {
+//         const collection = await dbService.getCollection('car')
+//         let car = await collection.findOne({ "owner._id": managerId })
+//         delete car.currentKM
+//         delete car._id
+//         delete car.manufacturer
+//         delete car.model
+//         delete car.year
+//         delete car.updatedAt
+//         delete car.owner.name
+//         return car
+//     } catch (error) {
+//         throw error
+//     }
+// }
 export async function getById(id: string) {
     try {
         const collection = await dbService.getCollection('car')
@@ -43,7 +82,7 @@ export async function add(car: Car) {
 
 export async function update(car: Car) {
     try {
-        if(car && (car._id !== undefined)){
+        if (car && (car._id !== undefined)) {
             let id = ObjectId.createFromHexString(car._id)
             delete car._id
             const collection = await dbService.getCollection('car')
@@ -56,7 +95,7 @@ export async function update(car: Car) {
 }
 
 function _buildCriteria(filterBy: any) {
-    const criteria = {guests: null, location: null}
+    const criteria = { guests: null, location: null }
     if (filterBy.guests) criteria.guests = filterBy.guests
     if (filterBy.location) criteria.location = filterBy.location
     return criteria

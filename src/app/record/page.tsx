@@ -5,6 +5,7 @@ import car from '../../assets/imgs/car.jpg'
 import { Record } from "@/interfaces/record"
 import { getUser, verifySession } from "@/services/server/auth/session.service"
 import { redirect } from "next/navigation"
+import { User } from "@/interfaces/user"
 
 const RecordApp = async () => {
 
@@ -13,9 +14,9 @@ const RecordApp = async () => {
     redirect("/")
   }
 
-  const user = await getUser()
+  const user: User = await getUser()
 
-  let data: Record[] = await getRecords()
+  let data: Record[] = await getRecords(user?.managerId)
   data = JSON.parse(JSON.stringify(data))
 
   const handleDeleteRecord = async (recordId: string) => {

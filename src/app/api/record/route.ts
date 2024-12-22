@@ -1,4 +1,4 @@
-import { query, getById, remove, update, add } from "@/services/server/record/record.service"
+import { query, getById, remove, update, add, queryByLicense } from "@/services/server/record/record.service"
 
 export async function GET(req: Request) {
     
@@ -14,7 +14,7 @@ export async function GET(req: Request) {
         }
     } else {
         try {
-            const records = await query()
+            const records = await queryByLicense(searchParams.get('licenseNumber'))
             return Response.json({ records })
         } catch (error) {
             return Response.json({ status: 404, statusText: "Cannot get records" })
@@ -33,5 +33,13 @@ export async function POST(req: Request) {
 export async function PUT(req: Request) {
     const updatedRecord = await req.json()
     const res = await update(updatedRecord)
+    return Response.json({ res })
+}
+
+export async function DELETE(req: Request) {
+    const { searchParams } = new URL(req.url)
+    const id = searchParams.get('id')
+
+    const res = await remove(id)
     return Response.json({ res })
 }

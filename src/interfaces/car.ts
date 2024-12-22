@@ -9,11 +9,6 @@ export interface Car {
     model: string;
     year: number;
     currentKM: number;
-    keysAssignedTo: {
-      _id: string;
-      email: string;
-      name: string;
-    };
     updatedAt?: number
   }
   

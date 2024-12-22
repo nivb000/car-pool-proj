@@ -7,11 +7,11 @@ const Home = async () => {
   //TODO: CRUD ON CARS
   //CAR DETAILS PAGE (SHOW ORDERS AND RECORDS FROM CAR)
   //ORDERS full flow
-  // Add user manager Id
-  //Aggregation show only records from relevent car
-  //ADD user managment
+  // Add user manager Id (the user who is register the new user)
+  //Aggregation show only records from relevent car (by car license number)
+  //ADD user managment system
   //Try combine update and add to one cmp
-  //Make sure you cant edit or add if not admin and not logged in
+  //Make sure you cant edit or add if not admin and not logged in (useOptimistic)
 
 
   const user = await getUser() || null

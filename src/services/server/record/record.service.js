@@ -1,10 +1,19 @@
 import dbService from '../db.service'
 import { ObjectId } from 'mongodb'
 
-export async function query(filterBy = {}) {
+export async function query(userId) {
     try {
         const collection = await dbService.getCollection('record')
-        let records = await collection.find().toArray()
+        let records = await collection.find({ "car.ownerId": userId }).toArray()
+        return records
+    } catch (error) {
+        throw error
+    }
+}
+export async function queryByLicense(licenseNumber) {
+    try {
+        const collection = await dbService.getCollection('record')
+        let records = await collection.find({ "car.licenseNumber": +licenseNumber }).toArray()
         return records
     } catch (error) {
         throw error

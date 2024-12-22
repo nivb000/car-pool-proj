@@ -93,7 +93,7 @@ export const RecordModal = ({ record }: { record: Record }) => {
                         <li>
                             <div className='flex'>
                                 <p>רכב: &nbsp;</p>
-                                <span>{record?.car}</span>
+                                <span>{record?.car?.licenseNumber}</span>
                             </div>
                         </li>
                         <li>

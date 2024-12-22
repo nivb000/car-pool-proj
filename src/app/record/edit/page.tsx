@@ -1,12 +1,11 @@
 "use client"
-import { useState, useEffect } from "react"
+import { useState } from "react"
 import { Button } from "@mui/material"
 import { useSearchParams, useRouter } from 'next/navigation'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker'
 import { httpService } from "@/services/http.service"
-import { Loader } from "@/app/(cmps)/loader"
 import { AlertBar } from "@/app/(cmps)/alert-bar"
 import { SnackbarOrigin } from '@mui/material/Snackbar'
 import { fetcher } from '@/lib/fetcher'
@@ -23,7 +22,8 @@ const RecordEdit = () => {
 
     const router = useRouter()
     const searchParams = useSearchParams()
-    const { data: user, error, isLoading } = useSWR('/api/auth', fetcher)
+    const { data, error, isLoading } = useSWR(`/api/car?managerId=${searchParams.get('managerId')}`, fetcher)
+    
     
     const [alertMsg, setAlertMsg] = useState("")
     const [alertState, setAlertState] = useState<State>({
@@ -34,25 +34,19 @@ const RecordEdit = () => {
     
 
     const [record, setRecord] = useState({
-        driver: {...user},
+        driver: {
+            _id: searchParams.get('userId'),
+            name: searchParams.get('userName'),
+        },
         startKm: Number(searchParams.get('lastRideKm')) || 0,
         driveEndKm: 0,
         startDate: dayjs(),
         endDate: dayjs(),
         destinationPoint: "",
         startingPoint: "",
-        car: 11111111,
+        car: {},
         status: 'completed'
     })
-
-    useEffect(() => {
-        if (user) {
-            setRecord((prevState) => ({
-              ...prevState,
-              driver: user,
-            }))
-        }
-    }, [user])
     
 
     const handleChange = ({ target }: React.ChangeEvent<HTMLInputElement>) => {
@@ -85,9 +79,7 @@ const RecordEdit = () => {
             router.push('/record')
             router.refresh()
         }, 1500)
-    } 
-
-    if (isLoading) return <Loader />
+    }
 
     return <section className="flex space-evenly record-edit">
         <section className="form-container flex col align-center">
@@ -106,6 +98,11 @@ const RecordEdit = () => {
                         <label htmlFor="startKm"></label>
                         <input type="number" name="startKm" value={record.startKm} id="startKm" placeholder="קילומטר תחילת נסיעה" onChange={handleChange} />
                     </div>
+                    <div className="input-field">
+                        <label htmlFor="driveEndKm"></label>
+                        <input type="number" name="driveEndKm" id="driveEndKm" placeholder="קילומטר סוף נסיעה" onChange={handleChange} />
+                    </div>
+                    {/* TODO: THIS IS THE CAR INPUT */}
                     <div className="input-field">
                         <label htmlFor="driveEndKm"></label>
                         <input type="number" name="driveEndKm" id="driveEndKm" placeholder="קילומטר סוף נסיעה" onChange={handleChange} />
