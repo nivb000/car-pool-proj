@@ -1,4 +1,4 @@
-import { query as getRecords, remove } from "@/services/server/record/record.service"
+import { getByDriverId, query as getRecords, remove } from "@/services/server/record/record.service"
 import { RecordTable } from "../(cmps)/record-table"
 import Image from 'next/image'
 import car from '../../assets/imgs/car.jpg'
@@ -16,7 +16,7 @@ const RecordApp = async () => {
 
   const user: User = await getUser()
 
-  let data: Record[] = await getRecords(user?.managerId)
+  let data: Record[] = await getByDriverId(user._id)
   data = JSON.parse(JSON.stringify(data))
 
   const handleDeleteRecord = async (recordId: string) => {

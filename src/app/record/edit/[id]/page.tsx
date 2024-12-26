@@ -1,20 +1,20 @@
 "use client"
 import { useState, useEffect } from "react"
-import { Button } from "@mui/material"
+import { Button, MenuItem} from "@mui/material"
 import { useRouter } from 'next/navigation'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker'
 import { httpService } from "@/services/http.service"
 import { Loader } from "@/app/(cmps)/loader"
+import Select, { SelectChangeEvent } from '@mui/material/Select'
 import { AlertBar } from "@/app/(cmps)/alert-bar"
 import { SnackbarOrigin } from '@mui/material/Snackbar'
-import { fetcher } from '@/lib/fetcher'
-import useSWR from 'swr'
 import dayjs from 'dayjs'
 import Image from "next/image"
 import carOrder from "@/assets/imgs/order-car.png"
 import { Record } from "@/interfaces/record"
+import { User, MiniCar } from "@/interfaces/user"
 
 interface State extends SnackbarOrigin {
     open: boolean;
@@ -23,40 +23,50 @@ interface State extends SnackbarOrigin {
 const RecordEdit = ({ params }: { params: { id: string } }) => {
 
     const router = useRouter()
-    const { data, error: recordError, isLoading: recordIsLoading } = useSWR(`/api/record?id=${params.id}`, fetcher)
-    const { data: user, error: userError, isLoading: userIsLoading } = useSWR('/api/auth', fetcher)
-
-
-
-    useEffect(() => {
-        if (data) {
-            const recordToUpdate = data.record
-            recordToUpdate.startDate = dayjs(data.record.startDate)
-            recordToUpdate.endDate = dayjs(data.record.endDate)
-            setRecord(recordToUpdate)
-        }
-    }, [data])
-
-
     const [alertMsg, setAlertMsg] = useState("")
     const [alertState, setAlertState] = useState<State>({
         open: false,
         vertical: 'top',
         horizontal: 'center',
     })
-
-
+    const [cars, setCars] = useState<MiniCar[]>([])
     const [record, setRecord] = useState<Record>({
-        driver: { ...user },
+        driver: {
+            _id: '',
+            name: '',
+        },
         startKm: 0,
         driveEndKm: 0,
         startDate: dayjs(),
         endDate: dayjs(),
         destinationPoint: "",
         startingPoint: "",
-        car: 11111111,
+        carLicenseNumber: '',
         status: 'completed'
     })
+
+    useEffect(() => {
+        const fetchUser = async () => {
+            const user: User = await httpService.get('auth')
+            setRecord(prev => ({
+                ...prev,
+                carLicenseNumber: user.cars[0].licenseNumber,
+                driver: {
+                    _id: user._id,
+                    name: user.name
+                }
+            }))
+            setCars(user.cars)
+        }
+        const fetchRecord = async () => {
+            const res = await httpService.get(`record?id=${params.id}`)
+            res.record.startDate = dayjs(res.record.startDate)
+            res.record.endDate = dayjs(res.record.endDate)
+            setRecord(res.record)
+        }
+        fetchUser()
+        fetchRecord()
+    }, [])
 
 
     const handleChange = ({ target }: React.ChangeEvent<HTMLInputElement>) => {
@@ -75,27 +85,30 @@ const RecordEdit = ({ params }: { params: { id: string } }) => {
         setRecord(prevState => ({ ...prevState, [name]: value }))
     }
 
-const showSnackBar = (id: string) => {
+    const handleCarChange = (event: SelectChangeEvent) => {
+        const value = event.target.value
+        setRecord(prevRecord => ({...prevRecord, carLicenseNumber: value}))
+    }
+
+    const showSnackBar = (id: string) => {
         setAlertMsg(`נסיעה ${id} עודכנה בהצלחה`)
         setAlertState(prevState => ({ ...prevState, open: true }))
     }
 
     const handleSubmit = async (ev: React.FormEvent) => {
-        ev.preventDefault()        
+        ev.preventDefault()
         await httpService.put('record', record)
-        if(record._id) showSnackBar(record._id)
+        if (record._id) showSnackBar(record._id)
         setTimeout(() => {
             router.push('/record')
             router.refresh()
         }, 1500)
     }
 
-    if (recordIsLoading || userIsLoading) return <Loader />
-
     return <section className="flex space-evenly record-edit">
         <section className="form-container flex col align-center">
             <div className="wrapper">
-                <h1>הוסף נסיעה חדשה</h1>
+                <h1>עדכן נסיעה</h1>
                 <form className="flex col space-between" autoComplete="off" onSubmit={handleSubmit}>
                     <div className="input-field">
                         <label htmlFor="startingPoint"></label>
@@ -113,7 +126,14 @@ const showSnackBar = (id: string) => {
                         <label htmlFor="driveEndKm"></label>
                         <input type="number" name="driveEndKm" value={record.driveEndKm} id="driveEndKm" placeholder="קילומטר סוף נסיעה" onChange={handleChange} />
                     </div>
-                    <div className="datepicker-field" dir="ltr">
+                    <div className="input-field">
+                        {cars && <Select value={record.carLicenseNumber} label="רכב" onChange={handleCarChange}>
+                            {cars.map((car: MiniCar, idx: number) => (
+                                <MenuItem value={car.licenseNumber} key={idx}>{car.licenseNumber} - {car.model}</MenuItem>
+                            ))}
+                        </Select>}
+                    </div>
+                    <div className="datepicker-field" dir="rtl">
                         <LocalizationProvider dateAdapter={AdapterDayjs}>
                             <DateTimePicker
                                 label="תאריך התחלה"
@@ -122,7 +142,7 @@ const showSnackBar = (id: string) => {
                                 ampm={false} />
                         </LocalizationProvider>
                     </div>
-                    <div className="datepicker-field" dir="ltr">
+                    <div className="datepicker-field" dir="rtl">
                         <LocalizationProvider dateAdapter={AdapterDayjs}>
                             <DateTimePicker
                                 label="תאריך סיום"

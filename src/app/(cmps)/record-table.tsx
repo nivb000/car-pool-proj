@@ -117,10 +117,11 @@ export const RecordTable = ({ user, initialRecords, handleDeleteRecord }: { user
         }
     }
 
+
     return (
         <>
             <div className="flex space-between table-top-toolbar">
-                <Link href={`/record/edit?lastRideKm=${records.length > 0 ? records[records.length - 1].driveEndKm : 0}&userName=${user.name}&userId=${user._id}&managerId=${user.managerId}`}>
+                <Link href={`/record/edit`}>
                     <Button variant="contained" color="success">הוסף נסיעה חדשה</Button>
                 </Link>
                 <input id="search" type="search" value={search} onChange={handleSearch} placeholder="חפש" />
@@ -165,7 +166,7 @@ export const RecordTable = ({ user, initialRecords, handleDeleteRecord }: { user
                                     <Cell>{record.startKm.toLocaleString("he-IL")}</Cell>
                                     <Cell>{record.destinationPoint}</Cell>
                                     <Cell>{record.startingPoint}</Cell>
-                                    <Cell><RecordModal record={record}/></Cell>
+                                    <Cell><RecordModal record={record} /></Cell>
                                 </Row>
                             ))}
                         </Body>

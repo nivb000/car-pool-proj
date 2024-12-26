@@ -37,18 +37,25 @@
                             color: silver;
                         }
                     }
+                    .css-sc8y68-MuiInputBase-root-MuiOutlinedInput-root-MuiSelect-root{
+                        width: 100%;
+                    }
+                    .css-w76bbz-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input{
+                        border: 3px solid silver;
+                        color: white;
+                    }
                 }
                 .datepicker-field{
                     margin: 1.5rem 0;
-                    .css-z3c6am-MuiFormControl-root-MuiTextField-root{
+                    .css-1b1fjlj-MuiFormControl-root-MuiTextField-root{
                         width: 100%;
                     }
                     // Text Color
-                    .css-o9k5xi-MuiInputBase-root-MuiOutlinedInput-root{
-                        color: white;
-                    }
-                    // Label
-                    .css-1jy569b-MuiFormLabel-root-MuiInputLabel-root{
+                    .css-o9k5xi-MuiInputBase-root-MuiOutlinedInput-root,
+                    .css-113d811-MuiFormLabel-root-MuiInputLabel-root,
+                    .css-1jy569b-MuiFormLabel-root-MuiInputLabel-root,
+                    .css-1dune0f-MuiInputBase-input-MuiOutlinedInput-input,
+                    .css-1umw9bq-MuiSvgIcon-root{
                         color: white;
                     }
                     // Border

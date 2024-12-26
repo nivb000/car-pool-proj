@@ -44,7 +44,7 @@
                     border-radius: 100%;
                     background: #076DFF;
                     cursor: pointer;
-                    > :only-child{
+                    svg{
                         transform: translateY(10%);
                     }
                 }

@@ -12,10 +12,7 @@ export interface Record {
     endDate: Dayjs  | null;
     destinationPoint: string;
     startingPoint: string;
-    car: {
-      ownerId: string;
-      licenseNumber: number;
-    };
+    carLicenseNumber: string
     status: string,
     updatedAt?: number
   }

@@ -1,6 +1,6 @@
 "use client"
-import { useState } from "react"
-import { Button } from "@mui/material"
+import { useState, useEffect } from "react"
+import { Button, MenuItem } from "@mui/material"
 import { useSearchParams, useRouter } from 'next/navigation'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
@@ -8,11 +8,11 @@ import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker'
 import { httpService } from "@/services/http.service"
 import { AlertBar } from "@/app/(cmps)/alert-bar"
 import { SnackbarOrigin } from '@mui/material/Snackbar'
-import { fetcher } from '@/lib/fetcher'
-import useSWR from 'swr'
+import Select, { SelectChangeEvent } from '@mui/material/Select'
 import dayjs from 'dayjs'
 import Image from "next/image"
 import carOrder from "@/assets/imgs/order-car.png"
+import { User, MiniCar } from "@/interfaces/user"
 
 interface State extends SnackbarOrigin {
     open: boolean;
@@ -22,10 +22,8 @@ const RecordEdit = () => {
 
     const router = useRouter()
     const searchParams = useSearchParams()
-    const { data, error, isLoading } = useSWR(`/api/car?managerId=${searchParams.get('managerId')}`, fetcher)
-    
-    
     const [alertMsg, setAlertMsg] = useState("")
+    const [cars, setCars] = useState<MiniCar[]>([])
     const [alertState, setAlertState] = useState<State>({
         open: false,
         vertical: 'top',
@@ -35,18 +33,32 @@ const RecordEdit = () => {
 
     const [record, setRecord] = useState({
         driver: {
-            _id: searchParams.get('userId'),
-            name: searchParams.get('userName'),
+            _id: '',
+            name: '',
         },
-        startKm: Number(searchParams.get('lastRideKm')) || 0,
+        startKm: searchParams.get('driveEndKm') || 0,
         driveEndKm: 0,
         startDate: dayjs(),
         endDate: dayjs(),
         destinationPoint: "",
         startingPoint: "",
-        car: {},
+        carLicenseNumber: '',
         status: 'completed'
     })
+
+    useEffect(() => {
+        const fetchUser = async() => {
+            const user: User = await httpService.get('auth')
+            setRecord(prev => ({...prev,
+                carLicenseNumber: user.cars[0].licenseNumber,
+                driver:{
+                _id: user._id,
+                name: user.name
+            }}))
+            setCars(user.cars)
+        }
+        fetchUser()
+    }, [])
     
 
     const handleChange = ({ target }: React.ChangeEvent<HTMLInputElement>) => {
@@ -65,6 +77,11 @@ const RecordEdit = () => {
         setRecord(prevState => ({ ...prevState, [name]: value }))
     }
 
+    const handleCarChange = (event: SelectChangeEvent) => {
+        const value = event.target.value
+        setRecord(prevRecord => ({...prevRecord, carLicenseNumber: value}))
+    }
+
     const showSnackBar = (id: string) => {
         setAlertMsg(`נסיעה ${id} נוספה בהצלחה`)
         setAlertState(prevState => ({ ...prevState, open: true }))
@@ -72,7 +89,7 @@ const RecordEdit = () => {
 
     const handleSubmit = async (ev: React.FormEvent) => {
         ev.preventDefault()
-        const {res} = await httpService.post('record', record)
+        const { res } = await httpService.post('record', record)
         
         showSnackBar(res.insertedId)
         setTimeout(() => {
@@ -102,12 +119,14 @@ const RecordEdit = () => {
                         <label htmlFor="driveEndKm"></label>
                         <input type="number" name="driveEndKm" id="driveEndKm" placeholder="קילומטר סוף נסיעה" onChange={handleChange} />
                     </div>
-                    {/* TODO: THIS IS THE CAR INPUT */}
                     <div className="input-field">
-                        <label htmlFor="driveEndKm"></label>
-                        <input type="number" name="driveEndKm" id="driveEndKm" placeholder="קילומטר סוף נסיעה" onChange={handleChange} />
+                    {cars && <Select value={record.carLicenseNumber} label="רכב" onChange={handleCarChange}>
+                        {cars.map((car: MiniCar, idx: number) => (
+                            <MenuItem value={car.licenseNumber} key={idx}>{car.licenseNumber} - {car.model}</MenuItem>
+                        ))}
+                    </Select>}
                     </div>
-                    <div className="datepicker-field" dir="ltr">
+                    <div className="datepicker-field" dir="rtl">
                         <LocalizationProvider dateAdapter={AdapterDayjs}>
                             <DateTimePicker 
                             label="תאריך התחלה"
@@ -116,7 +135,7 @@ const RecordEdit = () => {
                             ampm={false} />
                         </LocalizationProvider>
                     </div>
-                    <div className="datepicker-field" dir="ltr">
+                    <div className="datepicker-field" dir="rtl">
                         <LocalizationProvider dateAdapter={AdapterDayjs}>
                             <DateTimePicker 
                             label="תאריך סיום"

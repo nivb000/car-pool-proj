@@ -1,4 +1,4 @@
-import { getById, queryByOwner } from "@/services/server/car/car.service"
+import { getById } from "@/services/server/car/car.service"
 
 export async function GET(req: Request) {
 
@@ -12,14 +12,5 @@ export async function GET(req: Request) {
         } catch (error) {
             return Response.json({ status: 404, statusText: "Cannot get car" })
         }
-    } else {
-        try {
-            const cars = await queryByOwner(searchParams.get('managerId'))
-            
-            return Response.json({ cars })
-        } catch (error) {
-            return Response.json({ status: 404, statusText: "Cannot get car" })
-        }
     }
-
 }

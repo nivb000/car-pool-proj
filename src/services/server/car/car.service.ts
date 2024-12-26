@@ -11,29 +11,6 @@ export async function query(filterBy = {}) {
         throw error
     }
 }
-export async function queryByOwner(managerId: string | null) {
-    try {
-        const collection = await dbService.getCollection('car')
-        let cars = await collection.aggregate([
-            {
-                $match: { "owner._id": managerId } // Filter by managerId
-            },
-            {
-                $project: {
-                    licenseNumber: 1, // Include licenseNumber
-                    ownerId: "$owner._id", // Rename owner._id to ownerId
-                    _id: 0, // Exclude _id field
-                }
-            }
-        ]).toArray()
-        
-        return cars
-    } catch (error) {
-        console.log(error)
-        
-        throw error
-    }
-}
 export async function getById(id: string) {
     try {
         const collection = await dbService.getCollection('car')
