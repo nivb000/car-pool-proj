@@ -53,11 +53,6 @@ const AppHeader = ({ user }: { user: User }) => {
                                 </span>
                             </>
                         }
-                        <span className={`nav-link ${pathname === '/myrides' ? 'active' : ''} `}>
-                            <Link href="/myrides">
-                                הנסיעות שלי
-                            </Link>
-                        </span>
                         <span className={`nav-link ${pathname === '/' || pathname === '/record' ? 'active' : ''} `}>
                             <Link href="/">
                                 עמוד הבית

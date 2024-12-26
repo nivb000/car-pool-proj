@@ -1,13 +1,12 @@
 .car-managment-details{
     direction: rtl;
     .gradient-overlay {
-        height: 35vh;
         width: 100%;
         margin-block-end: 3rem;
         background-color: lightblue;
     }
     .top-section{
-        padding: 7rem 0;
+        padding: 4rem 0;
         h1{
             text-align: center;
         }
@@ -28,10 +27,12 @@
     .main-container{
         .left-section,
         .right-section{
-            flex-basis: 50%;
             height: fit-content;
         }
-        .left-section{}
+        .left-section{
+            flex-basis: 60%;
+            direction: ltr;
+        }
         .right-section{
 
         }

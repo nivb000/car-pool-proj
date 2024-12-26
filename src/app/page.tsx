@@ -4,10 +4,9 @@ import { getUser } from '@/services/server/auth/session.service'
 
 const Home = async () => {
 
-  //TODO: CRUD ON CARS
-  //on Homepage show all record with select button on user cars
-  //CAR DETAILS PAGE (SHOW ORDERS AND RECORDS FROM CAR)
   //ORDERS full flow
+  //TODO: CRUD ON CARS
+  //CAR DETAILS PAGE (SHOW ORDERS AND RECORDS FROM CAR)
   // Add user manager Id (the user who is register the new user)
   //Aggregation show only records from relevent car (by car license number)
   //ADD user managment system

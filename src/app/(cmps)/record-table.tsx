@@ -15,6 +15,7 @@ import { SnackbarOrigin } from '@mui/material/Snackbar'
 import { AlertBar } from "./alert-bar"
 import { MdDeleteOutline, MdEdit } from "react-icons/md"
 import { User } from "@/interfaces/user"
+import { RequestRideModal } from "./request-ride-modal"
 
 interface State extends SnackbarOrigin {
     open: boolean;
@@ -121,9 +122,12 @@ export const RecordTable = ({ user, initialRecords, handleDeleteRecord }: { user
     return (
         <>
             <div className="flex space-between table-top-toolbar">
-                <Link href={`/record/edit`}>
-                    <Button variant="contained" color="success">הוסף נסיעה חדשה</Button>
-                </Link>
+                <div>
+                    <Link href={`/record/edit`}>
+                        <Button variant="contained" color="success">הוסף נסיעה חדשה</Button>
+                    </Link>
+                    <RequestRideModal user={user} />
+                </div>
                 <input id="search" type="search" value={search} onChange={handleSearch} placeholder="חפש" />
             </div>
 

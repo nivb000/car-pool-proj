@@ -22,8 +22,8 @@ const RecordEdit = () => {
 
     const router = useRouter()
     const searchParams = useSearchParams()
-    const [alertMsg, setAlertMsg] = useState("")
     const [cars, setCars] = useState<MiniCar[]>([])
+    const [alertMsg, setAlertMsg] = useState("")
     const [alertState, setAlertState] = useState<State>({
         open: false,
         vertical: 'top',
