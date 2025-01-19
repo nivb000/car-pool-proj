@@ -5,7 +5,7 @@ import { getUser } from '@/services/server/auth/session.service'
 const Home = async () => {
 
   //ORDERS full flow
-  //TODO: My Orders and complete request to make it a full ride (just add KM and move it to records remove from orders)
+  //TODO: My Orders and complete request to make it a full ride (just add KM and add it to records
   //TODO: CRUD ON CARS
   //CAR DETAILS PAGE (SHOW ORDERS AND RECORDS FROM CAR)
   // Add user manager Id (the user who is register the new user)
