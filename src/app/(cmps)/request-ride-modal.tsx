@@ -83,12 +83,9 @@ export const RequestRideModal = ({ user }: { user: User }) => {
 
     const handleSubmit = async (ev: React.FormEvent) => {
         ev.preventDefault()
-        const { res } = await httpService.post('order', order)
+        console.log("Order is", order)
+        // const { res } = await httpService.post('order', order)
         showSnackBar()
-        setTimeout(() => {
-            router.push('/record')
-            router.refresh()
-        }, 1500)
     }
 
     return <>

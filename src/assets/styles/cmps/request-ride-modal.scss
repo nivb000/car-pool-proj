@@ -1,0 +1,61 @@
+.modal-main-wrapper{
+    direction: rtl;
+    .wrapper {
+        h1 {
+            margin: 0.3rem 0;
+            text-align: center;
+            font-family: Arial;
+        }
+
+        form {
+            padding-block-start: 0.3rem;
+
+            .input-field {
+                margin: 1rem 0;
+
+                input {
+                    background-color: transparent;
+                    width: 100%;
+                    padding: 0.1rem 0.3rem;
+                    font-size: 1rem;
+                    outline: 0;
+                    border-radius: 3px;
+                    border: 3px solid black;
+                    color: black;
+                    &:focus {
+                        border: 3px solid #0062ff;
+                    }
+                }
+                .css-sc8y68-MuiInputBase-root-MuiOutlinedInput-root-MuiSelect-root{
+                    width: 100%;
+                }
+                .css-w76bbz-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input{
+                    border: 3px solid black;
+                    color: black;
+                }
+            }
+            .datepicker-field{
+                margin: 1rem 0;
+                .css-1b1fjlj-MuiFormControl-root-MuiTextField-root{
+                    width: 100%;
+                }
+                // Text Color
+                .css-o9k5xi-MuiInputBase-root-MuiOutlinedInput-root,
+                .css-113d811-MuiFormLabel-root-MuiInputLabel-root,
+                .css-1jy569b-MuiFormLabel-root-MuiInputLabel-root,
+                .css-1dune0f-MuiInputBase-input-MuiOutlinedInput-input,
+                .css-1umw9bq-MuiSvgIcon-root{
+                    color: black;
+                }
+                // Border
+                .MuiOutlinedInput-notchedOutline{
+                    border: 3px solid black;
+                }
+                // SVG
+                .css-1yq5fb3-MuiButtonBase-root-MuiIconButton-root{
+                    color: black;
+                }
+            }
+        }
+    }
+}
